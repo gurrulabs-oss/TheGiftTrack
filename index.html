@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TheGiftTrack | Personalized Songs & Custom Music Gifts Made From Your Story</title>
+
+
+    <meta name="description" content="Create a personalized song made from your story using AI. TheGiftTrack combines artificial intelligence and human creativity to turn memories into custom music gifts for anniversaries, birthdays, kids, and loved ones.">
+
+    <meta name="keywords" content="personalized song, custom song gift, personalized music, write a song for someone, make a song about someone, anniversary song, birthday song, custom music gift, TheGiftTrack">
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root { --accent: #6366f1; }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #fff; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Instrument Sans', sans-serif; }
+
+        /* Premium Background Effect */
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #050505 50%);
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #fff 20%, #6366f1 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Audio Player Customization */
+        audio::-webkit-media-controls-panel { background-color: #111; }
+        audio::-webkit-media-controls-play-button { background-color: #6366f1; border-radius: 50%; }
+
+        /* Details accordion polish */
+        details summary { list-style: none; cursor: pointer; }
+        details summary::-webkit-details-marker { display: none; }
+
+        /* Custom audio slider (clean + visible on dark bg) */
+.seek {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  outline: none;
+}
+.seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.95);
+  border: 2px solid rgba(99,102,241,0.9); /* accent ring */
+  cursor: pointer;
+}
+.seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.95);
+  border: 2px solid rgba(99,102,241,0.9);
+  cursor: pointer;
+}
+        /* ===== TheGiftTrack Player (design-obsessed) ===== */
+.tg-player-shell{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  padding:14px 14px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+}
+
+.tg-play{
+  width:44px;
+  height:44px;
+  border-radius: 18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+ background: var(--card-accent, var(--accent));
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--card-accent, var(--accent)) 40%, transparent);
+
+  border: 1px solid rgba(255,255,255,0.10);
+  transition: transform .18s ease, filter .18s ease;
+}
+.tg-play:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+.tg-play:active{ transform: translateY(0px) scale(0.98); }
+.tg-icon{ width:16px; height:16px; color:#fff; }
+
+.tg-meta{ flex:1; min-width:0; }
+.tg-times{
+  margin-top:8px;
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.tg-bar-wrap{ position:relative; }
+.tg-bar{
+  height:10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow:hidden;
+  position:relative;
+}
+.tg-bar-fill{
+  height:100%;
+  width:0%;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--card-accent, var(--accent)) 92%, transparent),
+    rgba(255,255,255,0.70)
+  );
+  border-radius:999px;
+}
+
+.tg-bar-glow{
+  position:absolute;
+
+  /* tighter glow = less fog */
+  inset:-18px -12px;
+
+  background: radial-gradient(
+    circle at 40% 50%,
+    color-mix(in srgb, var(--card-accent, var(--accent)) 18%, transparent),
+    transparent 62%
+  );
+
+  /* lower opacity = no mist */
+  opacity: .35;
+
+  pointer-events:none;
+}
+
+
+
+.tg-seek{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:10px;
+  opacity:0;
+  cursor:pointer;
+}
+
+/* ===== Cover Modal ===== */
+.tg-modal{ position:fixed; inset:0; z-index:9999; }
+.tg-modal.hidden{ display:none; }
+.tg-modal-backdrop{
+  position:absolute; inset:0;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(14px);
+}
+.tg-modal-panel{
+  position:relative;
+  margin: 6vh auto 0;
+  width: min(720px, 92vw);
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(10,10,10,0.65);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.65);
+  overflow:hidden;
+}
+.tg-modal-img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.tg-modal-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:40px;
+  height:40px;
+  border-radius: 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.9);
+  transition: transform .18s ease, background .18s ease;
+}
+.tg-modal-close:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.14); }
+/* Swap cover + player when cover is on the right */
+.tg-media[data-cover-position="right"] {
+  flex-direction: row-reverse;
+}
+
+/* ===== Collection Carousel ===== */
+/* ===== Collection Carousel (coverflow / stacked deck) ===== */
+.tg-carousel { position: relative; }
+
+.tg-carousel::before,
+.tg-carousel::after{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  width:72px;
+  pointer-events:none;
+  z-index:4;
+}
+.tg-carousel::before{
+  left:0;
+  background: linear-gradient(90deg, rgba(5,5,5,0.92), rgba(5,5,5,0));
+
+}
+.tg-carousel::after{
+  right:0;
+  background: linear-gradient(270deg, rgba(5,5,5,1), rgba(5,5,5,0));
+}
+
+/* The “stage” */
+.tg-carousel-track{
+  position: relative;
+
+  /* Give the “shelf” enough vertical room for the selected card */
+  height: 660px;
+
+  /* IMPORTANT: allow the card to breathe vertically (no cropping) */
+  overflow-x: hidden;
+  overflow-y: visible;
+
+  /* Optional: extra breathing room */
+  padding: 60px 0;
+
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+
+/* Cards become positioned layers */
+.tg-carousel-item{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  transform-style: preserve-3d;
+
+  /* driven by JS */
+  transform:
+    translate(-50%, -50%)
+    translateX(var(--x, 0px))
+    translateY(var(--y, 0px))
+    scale(var(--s, 1))
+    rotateY(var(--ry, 0deg));
+
+  opacity: var(--op, 1);
+  filter: none;
+  z-index: var(--z, 1);
+
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms ease,
+    filter 420ms ease;
+
+  pointer-events: auto; /* only active card clickable */
+}
+
+.tg-carousel-item.is-active{
+  pointer-events: auto;
+}
+
+/* Designed-obsessed polish */
+.tg-carousel-item.is-active{
+  box-shadow: 0 40px 120px rgba(0,0,0,0.65);
+}
+
+/* Buttons remain */
+.tg-carousel-btn{
+  position:absolute;
+  top:50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: none;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+  transition: transform .18s ease, background .18s ease, opacity .18s ease;
+  z-index: 6;
+}
+.tg-carousel-btn:hover{ transform: translateY(-50%) translateY(-1px); background: rgba(255,255,255,0.10); }
+.tg-carousel-btn:active{ transform: translateY(-50%) scale(0.98); }
+
+.tg-carousel-btn[disabled]{ opacity: 0.0; pointer-events:none; }
+.tg-carousel-btn.left{ left: 10px; }
+.tg-carousel-btn.right{ right: 10px; }
+
+@media (max-width: 768px){
+  .tg-carousel-btn{ display:none; }
+  .tg-carousel-track{ height: 500px; }
+  .tg-carousel-item{ width: 82vw; }
+}
+
+
+        /* ===== Compact player for collection cards ===== */
+.tg-player.compact .tg-player-shell{
+  padding: 10px 10px;
+  border-radius: 18px;
+  box-shadow: none;
+  background: rgba(255,255,255,0.04);
+}
+
+.tg-player.compact .tg-play{
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+}
+
+.tg-player.compact .tg-bar{
+  height: 8px;
+}
+
+.tg-player.compact .tg-times{
+  margin-top: 6px;
+  font-size: 9px;
+  letter-spacing: .16em;
+}
+
+/* ===== Carousel: keep coverflow layout, remove hover lift + remove animations ===== */
+
+/* 1) IMPORTANT: do NOT touch .glass-card base transform (carousel uses transform to position cards) */
+
+/* Only neutralize the global .glass-card:hover lift INSIDE the carousel */
+#samples .tg-carousel .glass-card:hover{
+  /* keep the coverflow transform instead of translateY(-5px) */
+  transform:
+    translate(-50%, -50%)
+    translateX(var(--x, 0px))
+    translateY(var(--y, 0px))
+    scale(var(--s, 1))
+    rotateY(var(--ry, 0deg)) !important;
+
+  border-color: rgba(255,255,255,0.08);      /* optional: stop accent hover */
+  background: rgba(255,255,255,0.02);        /* optional: stop hover brighten */
+}
+
+/* 2) If you want NO animation at all, keep transitions off for carousel items */
+/* Premium motion: smooth transforms while user scrolls (no autoplay) */
+#samples .tg-carousel-item{
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease,
+    filter 180ms ease !important;
+
+  will-change: transform, opacity, filter;
+}
+
+
+/* 3) Keep active card clickable, others not */
+#samples .tg-carousel-item{ pointer-events: auto !important; }
+#samples .tg-carousel-item.is-active{ pointer-events: auto; }
+
+/* 4) Remove button hover micro-movement too */
+#samples .tg-carousel-btn,
+#samples .tg-carousel-btn:hover,
+#samples .tg-carousel-btn:active{
+  transition: none !important;
+  transform: translateY(-50%) !important;
+}
+
+        /* ===== Make carousel cards brighter (without animations) ===== */
+
+/* Slightly brighter glass on carousel cards only */
+
+
+/* Make side cards less “dead” (still behind, but visible) */
+#samples .tg-carousel-item:not(.is-active){
+  opacity: 0.78 !important;
+  filter: none !important; /* IMPORTANT: filters soften text */
+}
+
+
+/* Keep the active card crisp */
+#samples .tg-carousel-item.is-active{
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+        /* ===== Chosen card styling (no animation) ===== */
+#samples .tg-carousel-item.is-chosen{
+  border-color: rgba(99,102,241,0.55) !important; /* accent outline */
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.65),
+    0 0 0 2px rgba(99,102,241,0.22);
+}
+
+/* ===== Crisp typography on shelf ===== */
+#samples .tg-carousel-item{
+  filter: none !important;                 /* kills blur + dull filters */
+}
+
+#samples .tg-carousel-item p,
+#samples .tg-carousel-item h3,
+#samples .tg-carousel-item h4{
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55); /* subtle readability boost */
+}
+
+/* Keep “depth” without blur: just opacity */
+#samples .tg-carousel-item:not(.is-active){
+  opacity: 0.85 !important;
+}
+        /* ===== Snippet picker ===== */
+.tg-snips{
+  margin-top: 10px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.tg-snip{
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.75);
+}
+
+.tg-snip.is-on{
+  background: color-mix(in srgb, var(--card-accent, var(--accent)) 22%, rgba(255,255,255,0.06));
+  border-color: color-mix(in srgb, var(--card-accent, var(--accent)) 40%, rgba(255,255,255,0.12));
+  color: rgba(255,255,255,0.92);
+}
+
+        /* ===== FIX: make carousel card UI crisp (no fog / no blur / high contrast) ===== */
+
+/* 1) Kill the “mist” source: backdrop blur on the card surface */
+#samples .tg-carousel-item.glass-card{
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  /* 2) Give a real readable surface (no milky glass) */
+  background: rgba(10,10,10,0.88) !important;
+  border-color: rgba(255,255,255,0.16) !important;
+  box-shadow:
+    0 50px 140px rgba(0,0,0,0.68),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* 3) Ensure nothing in the carousel is blurred/filtered */
+
+
+/* 4) Force text colors in cards (Tailwind gray-500 is too low contrast here) */
+#samples .tg-carousel-item h3{
+  color: rgba(255,255,255,0.96) !important;
+}
+
+#samples .tg-carousel-item p{
+  color: rgba(255,255,255,0.78) !important;
+}
+
+/* 5) Make icons + buttons readable */
+#samples .tg-carousel-item i,
+#samples .tg-carousel-item button{
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* 6) Micro-contrast: subtle text edge so it stays sharp over dark glows */
+#samples .tg-carousel-item h3,
+#samples .tg-carousel-item p,
+#samples .tg-carousel-item button{
+  text-shadow: 0 2px 12px rgba(0,0,0,0.65);
+}
+
+/* ===== Ultra-crisp carousel text/buttons (fix 3D raster softness) ===== */
+
+/* Keep the shelf 3D on the card shell */
+#samples .tg-carousel-item{
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Busca este bloque y reemplázalo completamente */
+#samples .tg-carousel-item .tg-card-inner {
+  /* Cancelamos la rotación de la tarjeta padre para que el texto se dibuje "plano" al monitor */
+  transform: rotateY(calc(var(--ry, 0deg) * -1));
+  transform-style: flat;
+
+  /* Nitidez extrema para tipografía */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+
+  /* Evita que el navegador use una versión de baja calidad para la animación */
+  will-change: auto !important;
+}
+
+/* Asegura que los botones e iconos no tengan transiciones de escala que los emborronen */
+#samples .tg-carousel-item button,
+#samples .tg-carousel-item i,
+#samples .tg-carousel-item svg {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Make micro text and controls higher contrast inside carousel */
+#samples .tg-carousel-item p{ color: rgba(255,255,255,0.78) !important; }
+#samples .tg-carousel-item .tg-times{ color: rgba(255,255,255,0.58) !important; }
+#samples .tg-carousel-item .tg-snip{ color: rgba(255,255,255,0.84) !important; }
+#samples .tg-carousel-item .tg-snip.is-on{ color: rgba(255,255,255,0.96) !important; }
+
+/* ===== FINAL: make carousel text/buttons razor sharp ===== */
+#samples .tg-carousel-item{
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+#samples .tg-carousel-item .tg-card-inner{
+  /* cancel card rotation so text is drawn flat */
+  transform: rotateY(calc(var(--ry, 0deg) * -1));
+  transform-style: flat;
+
+  /* crisp text rendering */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+        /* ===== FINAL OVERRIDE: remove mist from carousel cards (especially selected) ===== */
+
+/* All carousel cards: NO glass blur, solid readable surface */
+#samples .tg-carousel-item.glass-card{
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  /* Kill any earlier "milky" translucent backgrounds */
+  background: rgba(10,10,10,0.90) !important;
+
+  border-color: rgba(255,255,255,0.16) !important;
+}
+
+/* Selected card: even more contrast + no haze */
+/* Sobreescritura final para máxima claridad en la tarjeta seleccionada */
+#samples .tg-carousel-item.is-active.glass-card {
+  /* Quitamos el blur del fondo que ensucia el renderizado */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  /* Usamos un fondo oscuro sólido pero muy elegante para que el texto resalte */
+  background: rgba(10,10,10,0.98) !important;
+
+  /* Un borde un poco más brillante para que destaque */
+  border-color: rgba(255,255,255,0.2) !important;
+  box-shadow: 0 50px 140px rgba(0,0,0,0.8);
+}
+
+/* Si tienes un brillo (glow) en la barra de progreso, quítalo en la activa
+   para que no genere "neblina" cerca del texto */
+#samples .tg-carousel-item.is-active .tg-bar-glow {
+  opacity: 0 !important;
+}
+/* Selected carousel card should be razor crisp: no glow haze */
+#samples .tg-carousel-item.is-active .tg-bar-glow,
+#samples .tg-carousel-item.is-chosen .tg-bar-glow{
+  opacity: 0 !important;
+}
+
+/* ===== Pricing: disabled plan (design-obsessed) ===== */
+.plan-disabled{
+  position: relative;
+  opacity: 0.55;
+  filter: grayscale(0.35);
+}
+
+.plan-disabled::after{
+  content:"Coming soon";
+  position:absolute;
+  top:18px;
+  right:18px;
+  padding:8px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 900;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  color: rgba(255,255,255,0.85);
+  backdrop-filter: none;
+}
+
+.plan-disabled .plan-cta{
+  pointer-events: none;
+  opacity: 0.55;
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.65) !important;
+}
+/* ===== Studio Track pricing polish ===== */
+.studio-new-price{
+  background: linear-gradient(90deg, rgba(99,102,241,1), rgba(255,255,255,0.92));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 18px 60px rgba(99,102,241,0.22);
+}
+
+.studio-old-price{
+  text-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+        /* ===== Carousel: user request micro-block (replaces snips) ===== */
+.tg-request{
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.tg-request-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: rgba(255,255,255,0.55);
+}
+
+.tg-request-text{
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.78);
+}
+/* 1. Forzamos que la tarjeta central sea 100% plana y sólida */
+#samples .tg-carousel-item.is-active .tg-card-inner {
+  /* Eliminamos el filtro de desenfoque de fondo que emborrona el texto */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  /* Un fondo casi opaco para que las letras resalten sobre el fondo */
+  background: rgba(15, 15, 15, 0.95) !important;
+
+  /* Reset total de transformaciones para que no haya decimales */
+  transform: rotateY(0deg) translateZ(0) !important;
+
+  /* Evitamos que el navegador "rasterice" el contenido */
+  will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* 2. Aseguramos que el contenedor no corte el antialiasing */
+#samples .tg-carousel-item {
+  contain: paint;
+}
+
+        /* ===== Order modal form polish ===== */
+#orderModal input, #orderModal textarea, #orderModal select{
+  color: rgba(255,255,255,0.92);
+}
+#orderModal ::placeholder{
+  color: rgba(255,255,255,0.35);
+}
+#orderModal select option{
+  background: #0b0b0b;
+  color: #fff;
+}
+/* ===== Order modal: allow internal scrolling (mobile-safe) ===== */
+#orderModal .tg-modal-panel{
+  max-height: 92vh;
+  overflow: hidden;              /* keep panel clean */
+  display: flex;
+  flex-direction: column;
+}
+
+#orderModal .order-scroll{
+  overflow: auto;                 /* THIS is the scroll */
+  -webkit-overflow-scrolling: touch;
+  max-height: 92vh;
+  padding-right: 6px;             /* prevents edge clipping */
+}
+
+
+        /* ===== FIX: carousel player buttons should always be clickable ===== */
+#samples .tg-carousel-item .tg-player,
+#samples .tg-carousel-item .tg-player-shell{
+  position: relative;
+  z-index: 50;
+}
+
+#samples .tg-carousel-item .tg-play{
+  position: relative;
+  z-index: 60;
+  pointer-events: auto !important;
+  touch-action: manipulation; /* reduces mobile tap delay / misfires */
+}
+
+/* Also make sure overlay/glow layers never intercept clicks */
+#samples .tg-carousel-item .tg-bar,
+#samples .tg-carousel-item .tg-bar *{
+  pointer-events: none;
+}
+#samples .tg-carousel-item .tg-seek{
+  pointer-events: auto; /* only the range should be clickable */
+}
+
+    </style>
+
+
+    <!-- Mixpanel -->
+    <script>
+        (function(f,b){
+          if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];
+          b.init=function(a,e,d){function f(b,h){var a=h.split(".");
+          2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(
+          Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d
+          ?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){
+          var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};
+          c.people.toString=function(){return c.toString(1)+".people (stub)"};
+          i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+          for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};
+          b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;
+          a.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+          e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}
+        })(document,window.mixpanel||[]);
+  mixpanel.init("20a6baa8d266700297f9b0b16efc0a13", {
+    api_host: "https://api-eu.mixpanel.com",
+    debug: true,
+    persistence: "localStorage"
+  });
+
+
+    </script>
+
+</head>
+<body class="antialiased">
+<div class="bg-glow"></div>
+
+<nav class="sticky top-0 z-50 px-6 py-4 border-b border-white/5 bg-black/50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="text-xl font-extrabold tracking-tighter italic">THEGIFT<span class="text-indigo-500">TRACK</span></div>
+        <div class="hidden md:flex space-x-10 text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400">
+            <a href="#social-proof" class="hover:text-white">Social Proof</a>
+            <a href="#samples" class="hover:text-white">The Collection</a>
+            <a href="#studio" class="hover:text-white">Our Method</a>
+            <a href="#pricing" class="hover:text-white">Studio Rates</a>
+        </div>
+        <a href="#pricing" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition">Order Now</a>
+    </div>
+</nav>
+
+<header class="relative pt-24 pb-16 px-6 text-center">
+    <div class="inline-block px-4 py-1.5 mb-6 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-widest animate-pulse">
+        Now Powered by Suno V5 Studio
+    </div>
+    <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-gradient">
+        Personalized Songs <br>
+        Made From Your Story
+    </h1>
+
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+        TheGiftTrack creates personalized songs and custom music gifts based on your story.
+        From anniversaries and birthdays to kids songs and life moments, we turn emotions into
+        studio-quality tracks written just for one person.
+    </p>
+
+    <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+        <a href="#pricing" class="w-full md:w-auto px-10 py-5 bg-white text-black rounded-2xl font-bold text-lg hover:bg-indigo-500 hover:text-white transition-all shadow-xl">Get Your Track</a>
+        <a href="#social-proof" class="w-full md:w-auto px-10 py-5 glass-card rounded-2xl font-bold text-lg italic">See Real Requests</a>
+    </div>
+</header>
+
+<!-- SOCIAL PROOF -->
+<section id="social-proof" class="max-w-7xl mx-auto py-24 px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-14 gap-4 text-center md:text-left">
+        <div>
+            <h2 class="text-3xl font-bold italic mb-2">
+                Real Personalized Songs Made From True Stories
+            </h2>
+
+            <p class="text-gray-500 text-sm">What people ask for — and what they get back. Your unique crafted Song</p>
+        </div>
+        <div class="h-px flex-grow mx-8 bg-white/10 hidden md:block"></div>
+
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+
+    <!-- 1) Anniversary -->
+        <div class="glass-card p-8 rounded-[2.5rem]" style="--card-accent:#6366f1" data-song-id="social_anniversary">
+
+        <div class="flex items-start justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-900/20 flex items-center justify-center border border-white/5">
+                        <i data-lucide="heart-handshake" class="w-6 h-6 text-indigo-400/70"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold uppercase text-sm tracking-wider">5th Anniversary</h3>
+                        <p class="text-[10px] text-gray-500 tracking-[0.25em] uppercase">Romantic • Acoustic Pop</p>
+                    </div>
+                </div>
+                <div class="glass-card px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-indigo-300">
+                    Real Example
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> Personalized song request
+
+                    </div>
+                    <p class="text-sm text-gray-200 leading-relaxed">
+                        “Create a romantic song for our 5th anniversary. We met in college, survived long-distance for a year,
+                        and now we live together with our dog Luna. I want it to feel intimate and hopeful.”
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="music-2" class="w-4 h-4"></i> Generated song
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        Warm acoustic indie-pop. Nostalgic verses → uplifting chorus. A bridge about distance, ending with Luna
+                        as the “we made it” moment.
+                    </p>
+
+                    <details class="group">
+                        <summary class="flex items-center justify-between rounded-xl px-4 py-3 bg-white/5 hover:bg-white/10 transition">
+                            <span class="text-[11px] uppercase tracking-[0.25em] font-bold text-gray-300">Show Song Details</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="mt-3 rounded-2xl bg-black/40 border border-white/5 p-4">
+                            <pre class="text-[11px] text-gray-200 whitespace-pre-wrap leading-relaxed">🎵 Lyrics
+Verse 1
+We were just kids in a crowded hall
+Late-night talks, dorm room walls
+Coffee cups and borrowed dreams
+Didn’t know yet what love would mean
+
+Pre-Chorus
+Then the miles came between our hands
+Screens and promises, counting days
+Every goodbye hurt a little more
+But we believed in what we had waiting for
+
+Chorus
+Five years later, here we stand
+Same two hearts, stronger plans
+Every road led back to you
+Every doubt we made it through
+I’d choose you again, every lifetime too
+
+Verse 2
+Suitcases by the front door light
+Calling home from different nights
+Your voice kept pulling me through
+Every sunrise closer to you
+
+Bridge
+Now there’s laughter in our place
+Morning light on your face
+And Luna sleeping by our side
+All the dreams we kept alive
+
+Final Chorus
+Five years later, here we stand
+Built a life with our own hands
+From the distance to the door
+I love you deeper than before
+And I’ll choose you forevermore
+
+🎶 Style
+Romantic acoustic pop / indie pop, warm + intimate, soft guitar, subtle piano, gentle drums, modern and timeless, mid-tempo, uplifting.</pre>
+                        </div>
+                    </details>
+
+                    <div class="mt-4">
+                        <!-- Cover -->
+                        <div class="tg-media flex items-center gap-4" data-cover-position="left">
+
+                        <button
+                                    type="button"
+                                    class="cover-btn group relative"
+                                    data-cover="covers/social-1-anniversary.png"
+                                    aria-label="Open cover"
+                            >
+                                <img
+                                        src="covers/social-1-anniversary.png"
+                                        alt="Song cover"
+                                        class="w-24 h-24 md:w-28 md:h-28 rounded-3xl object-cover border border-white/10 bg-white/5 shadow-2xl shadow-black/40 transition group-hover:scale-[1.02] group-hover:border-white/20"
+                                        loading="lazy"
+                                />
+                                <div class="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                                    <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                        View
+                                    </div>
+                                </div>
+                            </button>
+
+
+                            <div class="flex-1">
+                                <!-- Custom player UI -->
+                                <div
+                                        class="tg-player"
+                                        data-start="37.5"
+                                        data-end="94"
+                                >
+                                    <audio preload="metadata">
+                                        <source src="samples/social-1-anniversary.mp3" type="audio/mpeg">
+                                    </audio>
+
+                                    <div class="tg-player-shell">
+                                        <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                            <i data-lucide="play"></i>
+                                        </button>
+
+
+                                        <div class="tg-meta">
+                                            <div class="tg-bar-wrap">
+                                                <div class="tg-bar">
+                                                    <div class="tg-bar-fill"></div>
+                                                    <div class="tg-bar-glow"></div>
+                                                </div>
+                                                <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                            </div>
+
+                                            <div class="tg-times">
+                                                <span class="tg-tleft">0:00</span>
+                                                <span class="tg-tright">0:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 2) Motivation -->
+        <div class="glass-card p-8 rounded-[2.5rem]" style="--card-accent:#ec4899" data-song-id="social_motivation">
+
+        <div class="flex items-start justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-900/20 flex items-center justify-center border border-white/5">
+                        <i data-lucide="flame" class="w-6 h-6 text-pink-400/70"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold uppercase text-sm tracking-wider">Starting Over at 30</h3>
+                        <p class="text-[10px] text-gray-500 tracking-[0.25em] uppercase">Motivation • Cinematic Pop</p>
+                    </div>
+                </div>
+                <div class="glass-card px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-pink-300">
+                    High Emotion
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> User request
+                    </div>
+                    <p class="text-sm text-gray-200 leading-relaxed">
+                        “I need a song to remind me why I shouldn’t give up. The last year has been hard — job rejections,
+                        self-doubt, starting over at 30. I want something powerful but honest.”
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="music-2" class="w-4 h-4"></i> Generated song
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        Honest, minimal verses that build into a big chorus. “Not broken, just becoming” as the hook.
+                    </p>
+
+                    <details class="group">
+                        <summary class="flex items-center justify-between rounded-xl px-4 py-3 bg-white/5 hover:bg-white/10 transition">
+                            <span class="text-[11px] uppercase tracking-[0.25em] font-bold text-gray-300">Show Song Details</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="mt-3 rounded-2xl bg-black/40 border border-white/5 p-4">
+                            <pre class="text-[11px] text-gray-200 whitespace-pre-wrap leading-relaxed">🎵 Lyrics
+Verse 1
+Another morning staring at the ceiling
+Same doubts knocking at my door
+Dreams feel heavy, pockets empty
+Trying to be who I was before
+
+Pre-Chorus
+Everyone says “you’ll be fine”
+But they don’t hear the voice in my head
+Counting losses like they define me
+Wondering how I got here instead
+
+Chorus
+But I’m still breathing, still standing
+Still here after all this time
+Every fall taught me something
+Every scar is still mine
+I’m not broken, just becoming
+Learning who I’m meant to be
+I won’t quit, I won’t disappear
+This is not the end of me
+
+Verse 2
+Thirty candles, no clear direction
+Watching others race ahead
+Late-night thoughts, rejection letters
+Trying not to drown in what they said
+
+Bridge
+If I could talk to younger me
+I’d say “hold on, you’ll see”
+The storm won’t last forever
+You’re stronger than you believe
+
+Final Chorus
+I’m still breathing, still standing
+With my head up, scars in view
+Every doubt that tried to break me
+Only showed me what I can do
+I’m not late, I’m right on time
+This road was meant for me
+I won’t quit, I won’t disappear
+This is the start of me
+
+🎶 Style
+Emotional indie pop / cinematic pop, intimate vocal, starts minimal then builds big, piano/pads in verses, drums + synth lift in chorus, mid-tempo, empowering.</pre>
+                        </div>
+                    </details>
+
+                    <div class="mt-4">
+                        <!-- Cover -->
+                        <div class="tg-media flex items-center gap-4" data-cover-position="right">
+
+                        <button
+                                    type="button"
+                                    class="cover-btn group relative"
+                                    data-cover="covers/social-2-motivation.png"
+                                    aria-label="Open cover"
+                            >
+                                <img
+                                        src="covers/social-2-motivation.png"
+                                        alt="Song cover"
+                                        class="w-24 h-24 md:w-28 md:h-28 rounded-3xl object-cover border border-white/10 bg-white/5 shadow-2xl shadow-black/40 transition group-hover:scale-[1.02] group-hover:border-white/20"
+                                        loading="lazy"
+                                />
+                                <div class="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                                    <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                        View
+                                    </div>
+                                </div>
+                            </button>
+
+
+                            <div class="flex-1">
+                                <!-- Custom player UI -->
+                                <div
+                                        class="tg-player"
+                                        data-start="42.5"
+                                        data-end="71.5"
+                                >
+                                    <audio preload="metadata">
+                                        <source src="samples/social-2-motivation.mp3" type="audio/mpeg">
+                                    </audio>
+
+                                    <div class="tg-player-shell">
+                                        <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                            <i data-lucide="play"></i>
+                                        </button>
+
+
+                                        <div class="tg-meta">
+                                            <div class="tg-bar-wrap">
+                                                <div class="tg-bar">
+                                                    <div class="tg-bar-fill"></div>
+                                                    <div class="tg-bar-glow"></div>
+                                                </div>
+                                                <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                            </div>
+
+                                            <div class="tg-times">
+                                                <span class="tg-tleft">0:00</span>
+                                                <span class="tg-tright">0:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 3) Mom gift -->
+        <div class="glass-card p-8 rounded-[2.5rem]" style="--card-accent:#10b981" data-song-id="social_mom">
+
+        <div class="flex items-start justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-900/20 flex items-center justify-center border border-white/5">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-emerald-400/70"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold uppercase text-sm tracking-wider">Gift for Mom</h3>
+                        <p class="text-[10px] text-gray-500 tracking-[0.25em] uppercase">Gratitude • Piano Ballad</p>
+                    </div>
+                </div>
+                <div class="glass-card px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-emerald-300">
+                    Tearjerker
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> User request
+                    </div>
+                    <p class="text-sm text-gray-200 leading-relaxed">
+                        “Write a song as a gift for my mom. She raised me alone, worked two jobs, and never stopped believing
+                        in me. I want her to cry — in a good way, and this song should be deeply emotional and honest.”
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="music-2" class="w-4 h-4"></i> Generated song
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        Piano-led ballad with a big chorus of gratitude. Soft, sincere, “you were my home” kind of line.
+                    </p>
+
+                    <details class="group">
+                        <summary class="flex items-center justify-between rounded-xl px-4 py-3 bg-white/5 hover:bg-white/10 transition">
+                            <span class="text-[11px] uppercase tracking-[0.25em] font-bold text-gray-300">Show Song Details</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="mt-3 rounded-2xl bg-black/40 border border-white/5 p-4">
+                            <pre class="text-[11px] text-gray-200 whitespace-pre-wrap leading-relaxed">🎵 Lyrics
+Verse 1
+You were up before the sun
+Coffee cold, shoes half worn
+Two jobs, tired hands
+Still you smiled every morning
+
+I didn’t see it back then
+How heavy your days could be
+I just knew when I fell apart
+You were always there for me
+
+Pre-Chorus
+You held the world on your shoulders
+And never let it show
+You taught me how to stand up
+Even when I didn’t know
+
+Chorus
+If love had a face, it’d look like you
+If strength had a name, it’d be yours too
+Every dream I chased, I chased it far
+Because you told me who I was
+I’m here because you never gave up
+
+Verse 2
+Late nights waiting by the phone
+Hoping I was safe somewhere
+You prayed in silence, wiped your tears
+So I’d never see your fear
+
+You gave me more than you ever had
+Put yourself second every time
+I carry your faith inside my chest
+Like a quiet guiding light
+
+Pre-Chorus
+You believed before I did
+When I couldn’t see the way
+You saw a future in my hands
+On my worst and weakest days
+
+Chorus
+If love had a face, it’d look like you
+If strength had a name, it’d be yours too
+Every dream I chased, I chased it far
+Because you told me who I was
+I’m here because you never gave up
+
+Bridge
+I know I don’t say it enough
+But every step I take is proof
+That your sacrifices weren’t in vain
+I’m everything I am because of you
+
+(soft pause, almost spoken)
+I hope you’re proud of me
+
+Final Chorus
+If love had a face, it’d look like you
+Every broken piece you pulled me through
+I’ll spend my life trying to be
+Half the strength you’ve always been
+This song is my thank you, mom
+This song is me saying
+I see you
+
+Outro
+I see you
+And I always will
+
+🎶 Style
+Intimate acoustic ballad, emotional singer-songwriter, soft piano and gentle acoustic guitar, minimal arrangement, warm and close vocals, slow to mid-tempo, heartfelt and vulnerable, cinematic but simple, reflective and tender.</pre>
+                        </div>
+                    </details>
+
+                    <div class="mt-4">
+                        <!-- Cover -->
+                        <div class="tg-media flex items-center gap-4" data-cover-position="right">
+
+                        <button
+                                    type="button"
+                                    class="cover-btn group relative"
+                                    data-cover="covers/social-3-mom.png"
+                                    aria-label="Open cover"
+                            >
+                                <img
+                                        src="covers/social-3-mom.png"
+                                        alt="Song cover"
+                                        class="w-24 h-24 md:w-28 md:h-28 rounded-3xl object-cover border border-white/10 bg-white/5 shadow-2xl shadow-black/40 transition group-hover:scale-[1.02] group-hover:border-white/20"
+                                        loading="lazy"
+                                />
+                                <div class="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                                    <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                        View
+                                    </div>
+                                </div>
+                            </button>
+
+
+                            <div class="flex-1">
+                                <!-- Custom player UI -->
+                                <div
+                                        class="tg-player"
+                                        data-start="5"
+                                        data-end="53"
+                                >
+                                    <audio preload="metadata">
+                                        <source src="samples/social-3-mom.mp3" type="audio/mpeg">
+                                    </audio>
+
+                                    <div class="tg-player-shell">
+                                        <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                            <i data-lucide="play"></i>
+                                        </button>
+
+
+                                        <div class="tg-meta">
+                                            <div class="tg-bar-wrap">
+                                                <div class="tg-bar">
+                                                    <div class="tg-bar-fill"></div>
+                                                    <div class="tg-bar-glow"></div>
+                                                </div>
+                                                <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                            </div>
+
+                                            <div class="tg-times">
+                                                <span class="tg-tleft">0:00</span>
+                                                <span class="tg-tright">0:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4) Brincos puppet -->
+        <div class="glass-card p-8 rounded-[2.5rem]" style="--card-accent:#f59e0b" data-song-id="social_brincos">
+
+        <div class="flex items-start justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-900/20 flex items-center justify-center border border-white/5">
+                        <i data-lucide="party-popper" class="w-6 h-6 text-amber-400/70"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold uppercase text-sm tracking-wider">Brincos the Puppet</h3>
+                        <p class="text-[10px] text-gray-500 tracking-[0.25em] uppercase">Spanish Classroom • Kids Song</p>
+                    </div>
+                </div>
+                <div class="glass-card px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-amber-300">
+                    For 3-year-olds
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> User request
+                    </div>
+                    <p class="text-sm text-gray-200 leading-relaxed">
+                        “Create a fun Spanish classroom song for 3-year-olds about our puppet named <strong>Brincos</strong>.
+                        Make it super catchy, with simple, with a funny repetitive chorus ”
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-white/5 bg-black/30 p-5">
+                    <div class="flex items-center gap-2 mb-2 text-gray-400 text-[10px] uppercase tracking-[0.25em]">
+                        <i data-lucide="music-2" class="w-4 h-4"></i> Generated song
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                        A bright kids-pop chant with claps, “Brin-cos! Brin-cos!” hook, and quick Spanish phrases kids can repeat.
+                    </p>
+
+                    <details class="group">
+                        <summary class="flex items-center justify-between rounded-xl px-4 py-3 bg-white/5 hover:bg-white/10 transition">
+                            <span class="text-[11px] uppercase tracking-[0.25em] font-bold text-gray-300">Show Song Details</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="mt-3 rounded-2xl bg-black/40 border border-white/5 p-4">
+                            <pre class="text-[11px] text-gray-200 whitespace-pre-wrap leading-relaxed">🎵 Lyrics
+
+Chorus (super simple )
+Brincos, Brincos
+Cuando estás aquí me haces feliz
+Espero que te lo hayas pasado bien
+
+
+🎶 Style
+Kids pop / preschool classroom chant, Spanish language, very catchy, simple melody, lots of claps + stomps, call-and-response, bright instruments (ukulele, bells), 90–110 BPM, joyful and playful, short lines.</pre>
+                        </div>
+                    </details>
+
+                    <div class="mt-4">
+                        <!-- Cover -->
+                        <div class="tg-media flex items-center gap-4" data-cover-position="left">
+
+
+                        <button
+                                    type="button"
+                                    class="cover-btn group relative"
+                                    data-cover="covers/social-4-brincos.png"
+                                    aria-label="Open cover"
+                            >
+                                <img
+                                        src="covers/social-4-brincos.png"
+                                        alt="Song cover"
+                                        class="w-24 h-24 md:w-28 md:h-28 rounded-3xl object-cover border border-white/10 bg-white/5 shadow-2xl shadow-black/40 transition group-hover:scale-[1.02] group-hover:border-white/20"
+                                        loading="lazy"
+                                />
+                                <div class="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                                    <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                        View
+                                    </div>
+                                </div>
+                            </button>
+
+
+                            <div class="flex-1">
+                                <!-- Custom player UI -->
+                                <div
+                                        class="tg-player"
+                                        data-start="0"
+                                        data-end="28"
+                                >
+                                    <audio preload="metadata">
+                                        <source src="samples/social-4-brincos.mp3" type="audio/mpeg">
+                                    </audio>
+
+                                    <div class="tg-player-shell">
+                                        <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                            <i data-lucide="play"></i>
+                                        </button>
+
+
+                                        <div class="tg-meta">
+                                            <div class="tg-bar-wrap">
+                                                <div class="tg-bar">
+                                                    <div class="tg-bar-fill"></div>
+                                                    <div class="tg-bar-glow"></div>
+                                                </div>
+                                                <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                            </div>
+
+                                            <div class="tg-times">
+                                                <span class="tg-tleft">0:00</span>
+                                                <span class="tg-tright">0:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="samples" class="max-w-7xl mx-auto py-32 px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4 text-center md:text-left">
+        <div>
+            <h2 class="text-3xl font-bold italic mb-2">
+                Explore Personalized Song Examples
+            </h2>
+
+            <p class="text-gray-500 text-sm">
+                Every story has a sound. Browse different moods, moments, and musical worlds we have already created.
+            </p>
+
+        </div>
+        <div class="h-px flex-grow mx-8 bg-white/10 hidden md:block"></div>
+    </div>
+    <div class="tg-carousel mt-10">
+        <button class="tg-carousel-btn left" type="button" aria-label="Scroll left">
+            <i data-lucide="chevron-left" class="w-5 h-5 text-white/80"></i>
+        </button>
+
+        <div class="tg-carousel-track" id="collectionTrack">
+
+            <!-- Card 1 -->
+            <div class="tg-carousel-item glass-card p-6 rounded-[2rem]" data-song-id="collection_tide_between_us">
+                <div class="tg-card-inner">
+                    <button
+                            type="button"
+                            class="cover-btn group relative w-full aspect-square rounded-2xl mb-4 overflow-hidden border border-white/10 bg-white/5"
+                            data-cover="covers/tide_between_us.png"
+                            aria-label="Open cover"
+                    >
+                        <img
+                                src="covers/tide_between_us.png"
+                                alt="Song cover"
+                                class="w-full h-full object-cover"
+                                loading="lazy"
+                        />
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                            <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                View
+                            </div>
+                        </div>
+                    </button>
+
+                    <h3 class="font-bold text-sm mb-1 uppercase">Tide Between Us</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 tracking-wider">LOUNGE BAR • DEEP HOUSE</p>
+
+                    <div class="tg-player compact" data-start="18" data-end="65">
+                        <audio preload="metadata">
+                            <source src="samples/Tide_Between_Us.mp3" type="audio/mpeg">
+                        </audio>
+
+                        <div class="tg-player-shell">
+                            <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                <i data-lucide="play"></i>
+                            </button>
+
+                            <div class="tg-meta">
+                                <div class="tg-bar-wrap">
+                                    <div class="tg-bar">
+                                        <div class="tg-bar-fill"></div>
+                                        <div class="tg-bar-glow"></div>
+                                    </div>
+                                    <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                </div>
+
+                                <div class="tg-times">
+                                    <span class="tg-tleft">0:00</span>
+                                    <span class="tg-tright">0:00</span>
+                                </div>
+
+                                <div class="tg-request">
+                                    <div class="tg-request-label">
+                                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                                        User request
+                                    </div>
+                                    <p class="tg-request-text">
+                                        “Soft, warm deep house with intimate female vocals.”
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="tg-carousel-item glass-card p-6 rounded-[2rem]">
+                <div class="tg-card-inner">
+                    <button
+                            type="button"
+                            class="cover-btn group relative w-full aspect-square rounded-2xl mb-4 overflow-hidden border border-white/10 bg-white/5"
+                            data-cover="covers/sonia_kpop.png"
+                            aria-label="Open cover"
+                    >
+                        <img
+                                src="covers/sonia_kpop.png"
+                                alt="Song cover"
+                                class="w-full h-full object-cover"
+                                loading="lazy"
+                        />
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                            <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                View
+                            </div>
+                        </div>
+                    </button>
+
+                    <h3 class="font-bold text-sm mb-1 uppercase">A K-pop Journey</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 tracking-wider">K-POP • SPANISH</p>
+
+                    <div class="tg-player compact" data-start="40" data-end="82">
+                        <audio preload="metadata">
+                            <source src="samples/sonia_kpop.mp3" type="audio/mpeg">
+                        </audio>
+
+                        <div class="tg-player-shell">
+                            <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                <i data-lucide="play"></i>
+                            </button>
+
+                            <div class="tg-meta">
+                                <div class="tg-bar-wrap">
+                                    <div class="tg-bar">
+                                        <div class="tg-bar-fill"></div>
+                                        <div class="tg-bar-glow"></div>
+                                    </div>
+                                    <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                </div>
+
+                                <div class="tg-times">
+                                    <span class="tg-tleft">0:00</span>
+                                    <span class="tg-tright">0:00</span>
+                                </div>
+                                <div class="tg-request">
+                                    <div class="tg-request-label">
+                                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                                        User request
+                                    </div>
+                                    <p class="tg-request-text">
+                                        “A Spanish k-pop song inspired by a mother who adores Korean culture.”
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="tg-carousel-item glass-card p-6 rounded-[2rem]" data-song-id="collection_lullaby">
+                <div class="tg-card-inner">
+                    <button
+                            type="button"
+                            class="cover-btn group relative w-full aspect-square rounded-2xl mb-4 overflow-hidden border border-white/10 bg-white/5"
+                            data-cover="covers/Lullaby1.png"
+                            aria-label="Open cover"
+                    >
+                        <img
+                                src="covers/Lullaby1.png"
+                                alt="Song cover"
+                                class="w-full h-full object-cover"
+                                loading="lazy"
+                        />
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                            <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                View
+                            </div>
+                        </div>
+                    </button>
+
+
+                    <h3 class="font-bold text-sm mb-1 uppercase">The First Hello</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 tracking-wider">NEW BABY • LULLABY</p>
+
+                    <div class="tg-player compact" data-start="0" data-end="30">
+                        <audio preload="metadata">
+                            <source src="samples/Lullaby1.mp3" type="audio/mpeg">
+                        </audio>
+
+                        <div class="tg-player-shell">
+                            <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                <i data-lucide="play"></i>
+                            </button>
+
+                            <div class="tg-meta">
+                                <div class="tg-bar-wrap">
+                                    <div class="tg-bar">
+                                        <div class="tg-bar-fill"></div>
+                                        <div class="tg-bar-glow"></div>
+                                    </div>
+                                    <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                </div>
+
+                                <div class="tg-times">
+                                    <span class="tg-tleft">0:00</span>
+                                    <span class="tg-tright">0:00</span>
+                                </div>
+
+                                <div class="tg-request">
+                                    <div class="tg-request-label">
+                                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                                        User request
+                                    </div>
+                                    <p class="tg-request-text">
+                                        “A Lullaby for my newborn child, whose the love of my life”
+                                    </p>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="tg-carousel-item glass-card p-6 rounded-[2rem]">
+                <div class="tg-card-inner">
+                    <button
+                            type="button"
+                            class="cover-btn group relative w-full aspect-square rounded-2xl mb-4 overflow-hidden border border-white/10 bg-white/5"
+                            data-cover="covers/lofi_1.png"
+                            aria-label="Open cover"
+                    >
+                        <img
+                                src="covers/lofi_1.png"
+                                alt="Song cover"
+                                class="w-full h-full object-cover"
+                                loading="lazy"
+                        />
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-black/35 flex items-center justify-center">
+                            <div class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/10 border border-white/15 text-white/90">
+                                View
+                            </div>
+                        </div>
+                    </button>
+
+                    <h3 class="font-bold text-sm mb-1 uppercase">Midnight Debugging</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 tracking-wider">LO-FI • DEEP WORK</p>
+
+                    <div class="tg-player compact" data-start="0" data-end="30">
+                        <audio preload="metadata">
+                            <source src="samples/lofi_1.mp3" type="audio/mpeg">
+                        </audio>
+
+                        <div class="tg-player-shell">
+                            <button type="button" class="tg-play" aria-label="Play preview" data-state="play">
+                                <i data-lucide="play"></i>
+                            </button>
+
+                            <div class="tg-meta">
+                                <div class="tg-bar-wrap">
+                                    <div class="tg-bar">
+                                        <div class="tg-bar-fill"></div>
+                                        <div class="tg-bar-glow"></div>
+                                    </div>
+                                    <input type="range" class="tg-seek" min="0" max="100" value="0" step="0.1" aria-label="Seek"/>
+                                </div>
+
+                                <div class="tg-times">
+                                    <span class="tg-tleft">0:00</span>
+                                    <span class="tg-tright">0:00</span>
+                                </div>
+
+                                <div class="tg-request">
+                                    <div class="tg-request-label">
+                                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                                        User request
+                                    </div>
+                                    <p class="tg-request-text">
+                                        “Looking for some work-friendly lo-fi vibes to help me focus.”
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="tg-carousel-btn right" type="button" aria-label="Scroll right">
+            <i data-lucide="chevron-right" class="w-5 h-5 text-white/80"></i>
+        </button>
+    </div>
+
+</section>
+
+<section id="studio" class="py-32 px-6 bg-zinc-950/50">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div>
+            <h2 class="text-4xl font-bold mb-6 italic">
+                How We Create Personalized Songs <br>
+                <span class="text-indigo-500">From Your Story</span>
+            </h2>
+
+            <div class="space-y-6 text-gray-400 leading-relaxed">
+                <p>We are a team of 3 music producers with a combined 14 years of experience in recording studios and sound engineering. We’ve seen trends come and go, but the power of a perfect lyric never changes.</p>
+                <p>At <strong>TheGiftTrack</strong>, we don't just "hit a button." We curate every prompt, edit every verse for maximum impact, and master the final audio to ensure it sounds like it was recorded at Abbey Road.</p>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <div class="glass-card px-4 py-2 rounded-lg text-xs font-bold uppercase">14+ Years Exp</div>
+                <div class="glass-card px-4 py-2 rounded-lg text-xs font-bold uppercase">Studio Grade</div>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="absolute -inset-4 bg-indigo-500/20 blur-3xl rounded-full"></div>
+            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop" class="relative rounded-3xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl" alt="Studio Production">
+        </div>
+    </div>
+</section>
+
+<section id="pricing" class="max-w-6xl mx-auto py-32 px-6">
+    <div class="text-center mb-20">
+        <h2 class="text-4xl font-bold mb-4 italic uppercase tracking-tighter">Studio Rates</h2>
+        <p class="text-gray-500">Pick the level of production your story deserves.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass-card p-10 rounded-[3rem] flex flex-col">
+            <h3 class="text-lg font-bold mb-1 uppercase italic">The Demo</h3>
+            <p class="text-gray-500 text-xs mb-8">Fast, fun, and effective.</p>
+            <div class="text-5xl font-bold mb-8">$19</div>
+            <ul class="space-y-4 text-sm text-gray-400 flex-grow mb-12">
+                <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-3 text-indigo-500"></i> 1-Minute Track</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-3 text-indigo-500"></i> AI-Only Lyrics</li>
+                <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 mr-3 text-indigo-500"></i> Standard MP3</li>
+                <li class="flex items-center text-gray-600"><i data-lucide="x" class="w-4 h-4 mr-3"></i> No Revisions</li>
+            </ul>
+            <button
+                    type="button"
+                    class="py-4 bg-white text-black text-center font-bold rounded-2xl hover:bg-gray-200 transition w-full"
+                    data-open-order
+                    data-plan="Demo"
+                    data-price="19"
+            >
+                Order Demo
+            </button>
+
+        </div>
+
+        <div class="glass-card p-10 rounded-[3rem] border-indigo-500/50 relative transform scale-105 shadow-2xl shadow-indigo-500/20 flex flex-col">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-indigo-500 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em] flex items-center gap-2">
+                The Best Seller
+                <span class="px-2 py-0.5 rounded-full bg-white/15 border border-white/20 text-[9px] tracking-[0.25em]">15$ OFFER</span>
+            </div>
+
+            <h3 class="text-lg font-bold mb-1 uppercase italic text-indigo-400">The Studio Track</h3>
+            <p class="text-gray-500 text-xs mb-8">Our signature production.</p>
+            <div class="mb-8">
+                <div class="flex items-end justify-center gap-4">
+                    <!-- NEW PRICE (colored, premium) -->
+                    <div class="text-6xl font-extrabold tracking-tight studio-new-price">$15</div>
+
+                    <!-- OLD PRICE (bigger + struck through, still readable) -->
+                    <div class="flex flex-col items-start leading-none pb-1">
+                        <div class="text-[10px] uppercase tracking-[0.22em] font-black text-white/45">Was</div>
+                        <div class="text-2xl font-extrabold text-white/50 line-through studio-old-price">$49</div>
+                    </div>
+                </div>
+
+                <div class="mt-3 text-[10px] uppercase tracking-[0.22em] font-black text-indigo-300">
+                    Limited offer
+                </div>
+            </div>
+
+
+            <ul class="space-y-4 text-sm text-gray-300 flex-grow mb-12 font-medium">
+                <li class="flex items-center"><i data-lucide="star" class="w-4 h-4 mr-3 text-indigo-500 fill-indigo-500"></i> 3-Minute Full Song</li>
+                <li class="flex items-center"><i data-lucide="star" class="w-4 h-4 mr-3 text-indigo-500 fill-indigo-500"></i> Human Lyric Polish</li>
+                <li class="flex items-center"><i data-lucide="star" class="w-4 h-4 mr-3 text-indigo-500 fill-indigo-500"></i> AI Custom Cover Art</li>
+
+                <li class="flex items-center"><i data-lucide="star" class="w-4 h-4 mr-3 text-indigo-500 fill-indigo-500"></i> 24h Express Delivery</li>
+            </ul>
+            <button
+                    type="button"
+                    class="py-4 bg-indigo-600 text-white text-center font-bold rounded-2xl hover:bg-indigo-500 transition shadow-lg shadow-indigo-500/40 w-full"
+                    data-open-order
+                    data-plan="Studio Track"
+                    data-price="15"
+            >
+                Order Studio Track
+            </button>
+
+        </div>
+
+        <div class="glass-card p-10 rounded-[3rem] flex flex-col plan-disabled">
+
+        <h3 class="text-lg font-bold mb-1 uppercase italic text-amber-500">The Gold Record</h3>
+            <p class="text-gray-500 text-xs mb-8">The complete visual experience.</p>
+            <div class="text-5xl font-bold mb-8">$89</div>
+            <ul class="space-y-4 text-sm text-gray-400 flex-grow mb-12">
+                <li class="flex items-center"><i data-lucide="crown" class="w-4 h-4 mr-3 text-amber-500"></i> Everything in Studio</li>
+                <li class="flex items-center"><i data-lucide="crown" class="w-4 h-4 mr-3 text-amber-500"></i> HD Lyric Video (4K)</li>
+                <li class="flex items-center"><i data-lucide="crown" class="w-4 h-4 mr-3 text-amber-500"></i> QR Code Physical Card</li>
+                <li class="flex items-center"><i data-lucide="crown" class="w-4 h-4 mr-3 text-amber-500"></i> Master WAV Stems</li>
+            </ul>
+            <a href="javascript:void(0)" class="plan-cta py-4 bg-white text-black text-center font-bold rounded-2xl">
+                Not available yet
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<section id="faq" class="max-w-5xl mx-auto py-32 px-6">
+    <div class="text-center mb-20">
+        <h2 class="text-3xl font-bold italic mb-3">
+            Before you press play
+        </h2>
+        <p class="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">
+            A few things people usually ask before turning a moment into music.
+        </p>
+    </div>
+
+
+    <div class="space-y-6">
+        <!-- KEEP: core explanation (SEO tweak in title) -->
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">How does TheGiftTrack work to create a personalized song?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                You share your story, emotions, and the person it’s for. Our producers craft a custom prompt,
+                generate the first version with AI, then refine lyrics, structure, and sound until it feels human,
+                intentional, and emotionally right.
+            </p>
+        </details>
+
+        <!-- KEEP: but make it SEO-friendly + consistent -->
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">Is the personalized song fully AI-generated?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                Yes — the first version is generated with AI.
+                Our role is guidance and curation: we carefully craft the prompt, direct multiple iterations, and refine lyrics and structure until the song feels intentional, emotionally accurate, and truly fitted to your story.
+            </p>
+        </details>
+
+        <!-- KEEP -->
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">How long does delivery take for a custom song?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                Most orders are delivered within 24 hours. Some complex or emotional requests may take slightly longer
+                to ensure quality — we never rush a meaningful song.
+            </p>
+        </details>
+
+        <!-- OPTIONAL: you had this commented out; SEO-friendly version if you want to re-enable later -->
+        <!--
+        <details class="glass-card p-6 rounded-2xl">
+          <summary class="flex items-center justify-between cursor-pointer">
+            <span class="font-semibold">Can I request changes to my personalized song?</span>
+            <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+          </summary>
+          <p class="mt-4 text-gray-400 leading-relaxed">
+            Yes. Depending on the plan you choose, revisions are included to make sure the song feels right.
+            We care more about the emotional impact than shipping something fast.
+          </p>
+        </details>
+        -->
+
+        <!-- KEEP -->
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">What occasions are best for a personalized song gift?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                Anniversaries, birthdays, break-ups, thank-you gifts, weddings, children’s songs, or moments that are
+                hard to put into words. If it matters to you, it can become a song.
+            </p>
+        </details>
+
+        <!-- ADD: high-intent SEO FAQs -->
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">What is a personalized song?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                A personalized song is a custom track made for one person, based on real details like memories, personality,
+                and the feeling you want to deliver. It’s not a template — it’s written to fit someone.
+            </p>
+        </details>
+
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">Can you include names, places, or personal memories in the lyrics?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                Yes. You can add names, places, inside jokes, and meaningful moments. We weave them in tastefully so the
+                lyrics feel personal while still sounding natural and musical.
+            </p>
+        </details>
+
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">What music styles can I choose for my custom song?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                You can choose a genre and mood (pop, indie, acoustic, R&amp;B, house, and more). The production is shaped
+                to match your story and the emotional intention of your gift.
+            </p>
+        </details>
+
+        <details class="glass-card p-6 rounded-2xl">
+            <summary class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold">What do I receive after ordering a personalized song?</span>
+                <i data-lucide="plus" class="w-5 h-5 text-gray-400"></i>
+            </summary>
+            <p class="mt-4 text-gray-400 leading-relaxed">
+                You receive a finished, shareable song you can gift immediately. It’s designed to be replayed, shared,
+                and remembered — a personal soundtrack for a real moment.
+            </p>
+        </details>
+    </div>
+
+
+        </section>
+
+<section class="sr-only">
+    <h2>Personalized Songs and Custom Music Gifts</h2>
+    <p>
+        TheGiftTrack helps you create a personalized song made from your story.
+        Whether you want to write a song for your partner, create a custom anniversary song,
+        a birthday gift, a personalized lullaby, or a kids song, our producers transform your
+        memories into emotional, studio-quality music.
+    </p>
+    <p>
+        Each custom song is crafted from scratch using your story, mood, and style preferences.
+        If you are looking to make a song about someone special, personalize a song with lyrics,
+        or give a meaningful music gift, TheGiftTrack makes it simple and unforgettable.
+    </p>
+</section>
+
+        <footer class="py-20 border-t border-white/5 text-center">
+            <div class="text-2xl font-black italic tracking-tighter mb-6">THEGIFT<span class="text-indigo-500 text-4xl">.</span>TRACK</div>
+            <p class="text-[10px] text-gray-600 uppercase tracking-[0.5em]">&copy; 2026 Crafted with Soul For You</p>
+        </footer>
+
+<!-- Order Modal -->
+<div id="orderModal" class="tg-modal hidden" aria-hidden="true">
+    <div class="tg-modal-backdrop" data-order-close="1"></div>
+
+    <div class="tg-modal-panel" role="dialog" aria-modal="true" style="width:min(860px,92vw);">
+        <button type="button" class="tg-modal-close" aria-label="Close" data-order-close="1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="p-8 md:p-10 order-scroll">
+
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                <div>
+                    <div class="text-[10px] uppercase tracking-[0.28em] font-black text-white/50">Request form</div>
+                    <h3 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
+                        Tell us what you want to hear.
+                    </h3>
+                    <p class="text-gray-400 text-sm mt-2 max-w-xl">
+                        Our producers craft your prompt, structure and lyrics — this info is what makes it feel personal.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl px-4 py-3 border border-white/10" id="orderPlanPill">
+                    <div class="text-[10px] uppercase tracking-[0.22em] font-black text-white/50">Selected rate</div>
+                    <div class="font-extrabold mt-1">
+                        <span id="orderPlanName">Studio Track</span>
+                        <span class="text-indigo-300 font-black" id="orderPlanPrice"> — $15</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="orderForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <input type="hidden" name="fbzx" value="1418526147852992219">
+
+
+                <!-- Who is it for -->
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Who is it for?</label>
+                    <input name="recipient" required
+                           class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                           placeholder="Name (e.g., Marta, Dad, my best friend)" />
+                </div>
+
+                <!-- Your email -->
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Email for delivery</label>
+                    <input name="email" type="email" required
+                           class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                           placeholder="you@email.com" />
+                </div>
+
+                <!-- Occasion / kind of song -->
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Kind of song</label>
+                    <select name="occasion" required
+                            class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60">
+                        <option value="" disabled selected>Select one</option>
+                        <option>Anniversary</option>
+                        <option>Birthday</option>
+                        <option>Wedding</option>
+                        <option>Break-up / Healing</option>
+                        <option>Motivation / Life reset</option>
+                        <option>Thank-you (Mom/Dad/Friend)</option>
+                        <option>Kids song</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <!-- Lyrics + language (always visible, disabled when No) -->
+                <div class="md:col-span-2">
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Lyrics</label>
+
+                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Yes/No (stacked in same column) -->
+                        <div class="flex flex-col gap-3">
+                            <label class="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/5 border border-white/10 cursor-pointer">
+                                <input type="radio" name="wantLyrics" value="Yes" class="accent-indigo-500" required>
+                                <span class="text-sm text-white/90 font-semibold">Yes, include lyrics</span>
+                            </label>
+
+                            <label class="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/5 border border-white/10 cursor-pointer">
+                                <input type="radio" name="wantLyrics" value="No" class="accent-indigo-500" required>
+                                <span class="text-sm text-white/90 font-semibold">No lyrics (instrumental)</span>
+                            </label>
+
+                            <div class="text-[11px] text-white/45 leading-relaxed">
+                                If you choose “No”, we’ll focus on melody, arrangement and emotion.
+                            </div>
+                        </div>
+
+                        <!-- Language (always shown) -->
+                        <div>
+                            <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Lyrics language</label>
+                            <select id="lyricsLanguage" name="lyricsLanguage"
+                                    class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60">
+                                <option value="" disabled selected>Select one</option>
+                                <option>English</option>
+                                <option>Spanish</option>
+                                <option>French</option>
+                                <option>Italian</option>
+                                <option>Portuguese</option>
+                            </select>
+
+                            <div id="lyricsDisabledHint" class="mt-2 text-[11px] text-white/40 hidden">
+                                Disabled because you selected “No lyrics”.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Style / genre -->
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Music style / genre</label>
+                    <input name="genre" required
+                           class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                           placeholder="Indie pop, hip hop, acoustic ballad, synthwave…" />
+                </div>
+
+                <!-- Vibe -->
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Vibe</label>
+                    <input name="vibe"
+                           class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                           placeholder="Intimate, funny, cinematic, nostalgic, bold…" />
+                </div>
+
+
+
+
+                <!-- Story -->
+                <div class="md:col-span-2">
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Your story (the gold)</label>
+                    <textarea name="story" rows="5" required
+                              class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                              placeholder="Bullet points are perfect: how you met, key moments, inside jokes, what you want them to feel…"></textarea>
+                </div>
+
+                <!-- Must include -->
+                <div class="md:col-span-2">
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Must include (optional)</label>
+                    <input name="mustInclude"
+                           class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                           placeholder="A name, phrase, date, place, or a line you want in the chorus" />
+                </div>
+
+                <!-- References -->
+                <div class="md:col-span-2">
+                    <label class="text-[10px] uppercase tracking-[0.22em] font-black text-white/60">Reference artists (optional)</label>
+                    <input name="references"
+                           class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-indigo-500/60"
+                           placeholder="e.g., Taylor Swift (acoustic era), The Weeknd (synth vibe), Coldplay…" />
+                </div>
+
+                <!-- Submit -->
+                <div class="md:col-span-2 flex flex-col md:flex-row items-center justify-between gap-4 mt-2">
+                    <div class="text-[11px] text-white/45 max-w-xl">
+                        By submitting, you agree we can email you about this request. No spam. One song. One story.
+                    </div>
+
+                    <button type="submit"
+                            class="w-full md:w-auto px-8 py-4 rounded-2xl font-extrabold bg-indigo-600 hover:bg-indigo-500 transition shadow-lg shadow-indigo-500/40">
+                        Continue
+                    </button>
+                </div>
+
+            </form>
+            <!-- Success Screen (hidden until submit) -->
+            <div id="orderSuccess" class="hidden mt-2">
+                <div class="glass-card rounded-[2.5rem] border border-white/10 p-8 md:p-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-900/25 border border-white/10 flex items-center justify-center">
+                            <i data-lucide="check" class="w-6 h-6 text-indigo-300"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] uppercase tracking-[0.28em] font-black text-white/50">Request sent</div>
+                            <h4 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
+                                Perfect — we got your request.
+                            </h4>
+                            <p class="text-gray-400 text-sm mt-2 max-w-xl leading-relaxed">
+                                Next step: we’ll review your story and reply with the next steps.
+                                <span class="text-white/80 font-semibold">Check your email</span> — that’s where we’ll confirm everything.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-7 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="rounded-2xl border border-white/10 bg-black/30 p-5">
+                            <div class="text-[10px] uppercase tracking-[0.22em] font-black text-white/50">Selected plan</div>
+                            <div class="font-extrabold text-white/90 mt-1" id="successPlan">Studio Track</div>
+                        </div>
+
+                        <div class="rounded-2xl border border-white/10 bg-black/30 p-5">
+                            <div class="text-[10px] uppercase tracking-[0.22em] font-black text-white/50">What happens next</div>
+                            <div class="text-sm text-white/80 mt-1">We’ll email you a confirmation + payment link.</div>
+                        </div>
+
+                        <div class="rounded-2xl border border-white/10 bg-black/30 p-5">
+                            <div class="text-[10px] uppercase tracking-[0.22em] font-black text-white/50">Tip</div>
+                            <div class="text-sm text-white/80 mt-1">If it’s urgent, mention it in your story.</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-col md:flex-row gap-3">
+                        <button type="button" class="w-full md:w-auto px-6 py-4 rounded-2xl font-extrabold bg-indigo-600 hover:bg-indigo-500 transition shadow-lg shadow-indigo-500/40" data-order-close="1">
+                            Close
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- Cover Modal -->
+<div id="coverModal" class="tg-modal hidden" aria-hidden="true">
+    <div class="tg-modal-backdrop" data-close="1"></div>
+    <div class="tg-modal-panel" role="dialog" aria-modal="true">
+        <button type="button" class="tg-modal-close" aria-label="Close">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <img id="coverModalImg" src="" alt="Cover preview" class="tg-modal-img">
+    </div>
+</div>
+<script>
+    lucide.createIcons();
+
+  // =========================
+  // Mixpanel Tracking (TheGiftTrack)
+  // =========================
+
+  const MP = {
+    track: (event, props = {}) => {
+      try {
+        if (window.mixpanel && typeof window.mixpanel.track === "function") {
+          window.mixpanel.track(event, props);
+        }
+      } catch (e) {
+        // no-op
+      }
+    }
+  };
+
+  // Helper: extract a stable-ish song id
+  function getSongIdFromContext(el) {
+    // 1) explicit data-song-id anywhere up the tree
+    const holder = el?.closest?.("[data-song-id]");
+    if (holder?.dataset?.songId) return holder.dataset.songId;
+
+    // 2) audio filename fallback (e.g. samples/social-1-anniversary.mp3 -> social-1-anniversary)
+    const audio = el?.querySelector?.("audio") || el?.closest?.(".tg-player")?.querySelector?.("audio");
+    const src = audio?.querySelector?.("source")?.getAttribute?.("src") || audio?.currentSrc || "";
+    if (src) {
+      const file = src.split("/").pop() || src;
+      return file.replace(/\.(mp3|wav|m4a|ogg)(\?.*)?$/i, "");
+    }
+
+    // 3) last resort: index within section
+    const social = el?.closest?.("#social-proof");
+    const samples = el?.closest?.("#samples");
+    if (social) {
+      const cards = [...document.querySelectorAll("#social-proof .glass-card")];
+      const card = el.closest(".glass-card");
+      const idx = Math.max(0, cards.indexOf(card));
+      return `social_${idx + 1}`;
+    }
+    if (samples) {
+      const items = [...document.querySelectorAll("#samples .tg-carousel-item")];
+      const item = el.closest(".tg-carousel-item");
+      const idx = Math.max(0, items.indexOf(item));
+      return `collection_${idx + 1}`;
+    }
+
+    return "unknown";
+  }
+
+  function isInSocial(el) {
+    return !!el?.closest?.("#social-proof");
+  }
+  function isInCollection(el) {
+    return !!el?.closest?.("#samples");
+  }
+
+  // 1) Main page view
+  document.addEventListener("DOMContentLoaded", () => {
+    MP.track("TheGiftTrack Main Page - Page View", {});
+  });
+
+  // 2) Top bar clicked (Social Proof / The Collection / Our Method / Studio Rates)
+  // In your nav, the top links live under: nav .hidden.md:flex a[href^="#"]
+  document.querySelectorAll("nav a[href^='#']").forEach((a) => {
+    a.addEventListener("click", () => {
+      const action = (a.textContent || "").trim() || a.getAttribute("href") || "Unknown";
+      MP.track("TheGiftTrack Main Page - Top Bar Clicked", { action });
+    });
+  });
+
+  // 3) Social song details expanded
+  // Your social details are <details> inside #social-proof
+  document.querySelectorAll("#social-proof details").forEach((d) => {
+    d.addEventListener("toggle", () => {
+      if (d.open) {
+        MP.track("TheGiftTrack Main Page - Social Song Details Expanded", {
+          song_id: getSongIdFromContext(d)
+        });
+      }
+    });
+  });
+
+  // 4) FAQ expanded (faq_id + faq_text)
+  document.querySelectorAll("#faq details").forEach((d, idx) => {
+    d.addEventListener("toggle", () => {
+      if (d.open) {
+        const title = (d.querySelector("summary span")?.textContent || d.querySelector("summary")?.textContent || "").trim();
+        MP.track("TheGiftTrack Main Page - FAQ Expanded", {
+          faq_id: idx + 1,
+          faq_text: title
+        });
+      }
+    });
+  });
+
+  // 5) Rate click (pricing CTA buttons that open the form)
+  // Your buttons have: data-open-order data-plan data-price
+  document.querySelectorAll("[data-open-order]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      MP.track("TheGiftTrack Main Page - Rate Click", {
+        price: btn.dataset.price ? Number(btn.dataset.price) : undefined,
+        product_id: btn.dataset.plan || "unknown"
+      });
+    });
+  });
+
+  // 6) Form page view (when order modal opens)
+  // We hook into your existing openOrderModal(plan, price) by wrapping it.
+  // NOTE: this must be placed AFTER openOrderModal is defined if you paste it later.
+  // Since you're pasting right after lucide.createIcons() (top of script),
+  // we also add a fallback listener on clicks.
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-open-order]");
+    if (btn) {
+      MP.track("TheGiftTrack Form - Page View", {});
+    }
+  });
+
+  // 7) Form submitted + Post Checkout View (when success is shown)
+  // Your submit handler already exists; we add another listener (safe).
+  const _orderForm = document.getElementById("orderForm");
+  if (_orderForm) {
+    _orderForm.addEventListener("submit", () => {
+      MP.track("TheGiftTrack Form - Submitted", {});
+      MP.track("TheGiftTrack Form - Post Checkout View", {});
+    });
+  }
+
+  // 8) Cover image clicked (Social / Collection) - your cover buttons are .cover-btn
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".cover-btn");
+    if (!btn) return;
+
+    const songId = getSongIdFromContext(btn);
+    if (isInSocial(btn)) {
+      MP.track("TheGiftTrack Main Page - Social Image clicked", { song_id: songId });
+    } else if (isInCollection(btn)) {
+      MP.track("TheGiftTrack Main Page - Collection Image clicked", { song_id: songId });
+    }
+  });
+
+  // 9) Song played (Social / Collection)
+  // We track on audio "play" so it fires only when it actually starts playing.
+  // Also de-dupe so toggling doesn't spam.
+  const playedOnce = new WeakSet();
+  document.querySelectorAll(".tg-player").forEach((player) => {
+    const audio = player.querySelector("audio");
+    if (!audio) return;
+
+    audio.addEventListener("play", () => {
+      // small de-dupe per "play" action burst
+      if (playedOnce.has(audio)) return;
+      playedOnce.add(audio);
+      setTimeout(() => playedOnce.delete(audio), 500);
+
+      const songId = getSongIdFromContext(player);
+
+      if (isInSocial(player)) {
+        MP.track("TheGiftTrack Main Page - Social Song Played", { song_id: songId });
+      } else if (isInCollection(player)) {
+        MP.track("TheGiftTrack Main Page - Collection Song Played", { song_id: songId });
+      }
+    });
+  });
+
+  // =========================
+  // End Mixpanel Tracking
+  // =========================
+
+
+
+// ===== Cover Modal =====
+    const modal = document.getElementById("coverModal");
+    const modalImg = document.getElementById("coverModalImg");
+    const closeBtn = modal.querySelector(".tg-modal-close");
+    const backdrop = modal.querySelector(".tg-modal-backdrop");
+
+    function openModal(src) {
+      modalImg.src = src;
+      modal.classList.remove("hidden");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.setAttribute("aria-hidden", "true");
+      modalImg.src = "";
+        // Reset modal view
+  orderSuccess?.classList.add("hidden");
+  orderForm?.classList.remove("hidden");
+  orderForm?.reset();
+  syncLyricsUI();
+
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".cover-btn");
+      if (btn) openModal(btn.dataset.cover);
+      if (e.target === backdrop || e.target.closest("[data-close='1']")) closeModal();
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+    });
+
+// ===== Order Modal (Studio Rates) =====
+const orderModal = document.getElementById("orderModal");
+const orderPlanName = document.getElementById("orderPlanName");
+const orderPlanPrice = document.getElementById("orderPlanPrice");
+const orderForm = document.getElementById("orderForm");
+
+// ===== Order form: Lyrics enable/disable (language always visible) =====
+const lyricsSelect = document.getElementById("lyricsLanguage");
+const lyricsDisabledHint = document.getElementById("lyricsDisabledHint");
+
+function syncLyricsUI(){
+  const want = orderForm?.querySelector("input[name='wantLyrics']:checked")?.value;
+  const enable = (want === "Yes");
+
+  if (lyricsSelect){
+    lyricsSelect.disabled = !enable;
+    lyricsSelect.required = enable;
+    if (!enable) lyricsSelect.value = "";
+    lyricsSelect.classList.toggle("opacity-50", !enable);
+    lyricsSelect.classList.toggle("cursor-not-allowed", !enable);
+  }
+
+  if (lyricsDisabledHint){
+    lyricsDisabledHint.classList.toggle("hidden", enable);
+  }
+}
+
+orderForm?.addEventListener("change", (e) => {
+  if (e.target && e.target.name === "wantLyrics") syncLyricsUI();
+});
+
+function openOrderModal(plan, price){
+  orderPlanName.textContent = plan || "Studio Track";
+  orderPlanPrice.textContent = price ? ` — $${price}` : "";
+  orderModal.classList.remove("hidden");
+  orderModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+    syncLyricsUI();
+
+}
+
+
+
+function closeOrderModal(){
+  orderModal.classList.add("hidden");
+  orderModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-open-order]");
+  if (btn){
+    openOrderModal(btn.dataset.plan, btn.dataset.price);
+  }
+  if (e.target.closest("[data-order-close='1']")) closeOrderModal();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !orderModal.classList.contains("hidden")) closeOrderModal();
+});
+
+// For now: just demo submit behavior (replace with Stripe / backend later)
+// ===== Order submit: show success screen + open structured email draft =====
+const orderSuccess = document.getElementById("orderSuccess");
+const successPlan = document.getElementById("successPlan");
+const openPrefilledEmailBtn = document.getElementById("openPrefilledEmail");
+
+orderForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = new FormData(orderForm);
+  const obj = Object.fromEntries(data.entries());
+
+  const plan = (orderPlanName?.textContent || "Studio Track").trim();
+  const price = (orderPlanPrice?.textContent || "").replace(/[^\d.]/g, "");
+
+  // If user selected "No lyrics", clear lyrics language
+  if (obj.wantLyrics !== "Yes") obj.lyricsLanguage = "";
+
+  // 1) Send silently to Google Forms
+  submitToGoogleForms({
+    plan,
+    price,
+    recipient: obj.recipient,
+    email: obj.email,
+    occasion: obj.occasion,
+    genre: obj.genre,
+    vibe: obj.vibe,
+    wantLyrics: obj.wantLyrics,
+    lyricsLanguage: obj.lyricsLanguage,
+    story: obj.story,
+    mustInclude: obj.mustInclude,
+    references: obj.references
+  });
+
+  // 2) Show your designed success screen (instant UX)
+  orderForm.classList.add("hidden");
+  if (successPlan) successPlan.textContent = plan;
+  orderSuccess.classList.remove("hidden");
+  lucide.createIcons();
+});
+
+function submitToGoogleForms(payload){
+  const gf = document.getElementById("gfForm");
+  if (!gf) {
+    console.warn("[GF] Hidden form not found");
+    return;
+  }
+
+  // Minimal required (protects against silent drops if your Google Form has required fields)
+  const required = ["plan","price","recipient","email","occasion","genre","wantLyrics","story"];
+  for (const k of required){
+    if (!String(payload[k] ?? "").trim()){
+      console.warn("[GF] Missing required:", k);
+      // Still submit if YOU want, but better to stop:
+      // return;
+    }
+  }
+
+  // Fill hidden fields
+  document.getElementById("gf_plan").value = payload.plan || "";
+  document.getElementById("gf_price").value = payload.price || "";
+  document.getElementById("gf_recipient").value = payload.recipient || "";
+  document.getElementById("gf_email").value = payload.email || "";
+
+  document.getElementById("gf_kind").value = payload.occasion || "";
+  document.getElementById("gf_genre").value = payload.genre || "";
+  document.getElementById("gf_vibe").value = payload.vibe || "";
+
+  document.getElementById("gf_wantLyrics").value = payload.wantLyrics || "";
+  document.getElementById("gf_lyricsLanguage").value = payload.lyricsLanguage || "";
+
+  document.getElementById("gf_story").value = payload.story || "";
+  document.getElementById("gf_mustInclude").value = payload.mustInclude || "";
+  document.getElementById("gf_references").value = payload.references || "";
+
+  // Submit silently into hidden iframe
+  gf.submit();
+
+  // Optional: tiny debug breadcrumb (so you can confirm it fired)
+  console.log("[GF] Submitted");
+}
+
+
+    // ===== Player =====
+    const fmt = (sec) => {
+      sec = Math.max(0, sec || 0);
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60).toString().padStart(2, "0");
+      return `${m}:${s}`;
+    };
+
+    function setupTGPlayer(player) {
+      const audio = player.querySelector("audio");
+      const playBtn = player.querySelector(".tg-play");
+      const icon = playBtn.querySelector("i");
+      const seek = player.querySelector(".tg-seek");
+      const fill = player.querySelector(".tg-bar-fill");
+      const tLeft = player.querySelector(".tg-tleft");
+      const tRight = player.querySelector(".tg-tright");
+      // Prevent carousel card click handler from catching play taps
+      // ✅ Stop drag-capture before it starts (fixes "need to click many times")
+playBtn.addEventListener("pointerdown", (e) => e.stopPropagation());
+playBtn.addEventListener("pointerup", (e) => e.stopPropagation());
+
+playBtn.addEventListener("click", (e) => e.stopPropagation());
+seek.addEventListener("pointerdown", (e) => e.stopPropagation());
+seek.addEventListener("click", (e) => e.stopPropagation());
+
+
+let startAt = parseFloat(player.dataset.start || "0");
+let endAt = parseFloat(player.dataset.end || "0");
+let hasEnd = endAt > 0;
+
+const applySnippet = () => {
+  startAt = parseFloat(player.dataset.start || "0");
+  endAt = parseFloat(player.dataset.end || "0");
+  hasEnd = endAt > 0;
+
+  // reset UI
+  audio.pause();
+  setIcon(false);
+  audio.currentTime = startAt;
+
+  tLeft.textContent = fmt(0);
+  tRight.textContent = fmt(snippetDuration());
+  fill.style.width = "0%";
+  seek.value = "0";
+};
+// Snippet buttons inside this player
+player.addEventListener("click", (e) => {
+  const btn = e.target.closest(".tg-snip");
+  if (!btn) return;
+
+  // UI state
+  player.querySelectorAll(".tg-snip").forEach(b => b.classList.remove("is-on"));
+  btn.classList.add("is-on");
+
+  // Update dataset + apply
+  player.dataset.start = btn.dataset.snipStart || "0";
+  player.dataset.end = btn.dataset.snipEnd || "0";
+  applySnippet();
+});
+
+audio.addEventListener("loadedmetadata", () => {
+  applySnippet();
+});
+
+
+
+      let dragging = false;
+
+      function snippetEnd() {
+        const d = audio.duration || 0;
+        return hasEnd ? Math.min(endAt, d || endAt) : d;
+      }
+
+      function snippetDuration() {
+        return Math.max(0, snippetEnd() - startAt);
+      }
+
+function setIcon(playing) {
+  playBtn.setAttribute("data-state", playing ? "pause" : "play");
+  playBtn.innerHTML = playing
+    ? '<i data-lucide="pause"></i>'
+    : '<i data-lucide="play"></i>';
+  lucide.createIcons();
+}
+
+
+      audio.addEventListener("loadedmetadata", () => {
+        audio.currentTime = startAt;
+        tLeft.textContent = fmt(0);
+        tRight.textContent = fmt(snippetDuration());
+        fill.style.width = "0%";
+        seek.value = "0";
+      });
+
+      playBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          if (audio.currentTime < startAt || (hasEnd && audio.currentTime > endAt)) {
+            audio.currentTime = startAt;
+          }
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener("play", () => setIcon(true));
+      audio.addEventListener("pause", () => setIcon(false));
+
+      audio.addEventListener("timeupdate", () => {
+        const dur = snippetDuration();
+        if (!dur) return;
+
+if (hasEnd && audio.currentTime >= endAt) {
+  audio.pause();
+  audio.currentTime = startAt;
+  seek.value = "0";
+  fill.style.width = "0%";
+  tLeft.textContent = fmt(0);
+  setIcon(false);
+  return;
+}
+
+
+        if (dragging) return;
+
+        const pos = Math.max(0, audio.currentTime - startAt);
+        const pct = Math.min(100, (pos / dur) * 100);
+        seek.value = String(pct);
+        fill.style.width = `${pct}%`;
+        tLeft.textContent = fmt(pos);
+        tRight.textContent = fmt(dur);
+      });
+
+      seek.addEventListener("pointerdown", () => dragging = true);
+      seek.addEventListener("pointerup", () => {
+        dragging = false;
+        const dur = snippetDuration();
+        const pct = parseFloat(seek.value) / 100;
+        const target = startAt + (dur * pct);
+        audio.currentTime = target;
+      });
+
+      seek.addEventListener("input", () => {
+        const dur = snippetDuration();
+        const pct = parseFloat(seek.value) / 100;
+        const pos = dur * pct;
+        fill.style.width = `${pct}%`;
+        tLeft.textContent = fmt(pos);
+        tRight.textContent = fmt(dur);
+      });
+    }
+
+    document.querySelectorAll(".tg-player").forEach(setupTGPlayer);
+
+    // Stop other players when one starts
+    document.querySelectorAll(".tg-player audio").forEach((a) => {
+      a.addEventListener("play", () => {
+        document.querySelectorAll(".tg-player audio").forEach((other) => {
+          if (other !== a) other.pause();
+        });
+      });
+    });
+
+
+
+
+    // ===== Collection Carousel =====
+// ===== Collection Carousel (coverflow / stacked deck) =====
+(function setupCollectionCarousel(){
+  const track = document.getElementById("collectionTrack");
+  if (!track) return;
+
+  const root = track.closest(".tg-carousel");
+  const btnL = root.querySelector(".tg-carousel-btn.left");
+  const btnR = root.querySelector(".tg-carousel-btn.right");
+
+  const items = [...track.querySelectorAll(".tg-carousel-item")];
+  let active = 0;          // snapped index (for buttons + chosen)
+let activeFloat = 0;     // smooth position (for scroll feel)
+let raf = 0;
+
+
+
+function clampActive(){
+  active = Math.max(0, Math.min(items.length - 1, active));
+}
+function next(){
+  active = Math.min(items.length - 1, active + 1);
+  activeFloat = active;              // snap smooth position to chosen
+  apply();
+}
+function prev(){
+  active = Math.max(0, active - 1);
+  activeFloat = active;
+  apply();
+}
+
+
+function apply(){
+  items.forEach((el, i) => {
+    // distance from current smooth index
+    const d = i - activeFloat;
+
+    // Reset states
+    el.classList.remove("is-active", "is-spine", "is-chosen");
+    el.removeAttribute("aria-hidden");
+
+    // ===== “Bookshelf” knobs =====
+    const maxVisible = 6;     // how far cards still show
+    const nearFan = 3;        // how many cards are “fanned”
+    const spineStep = 90;     // spacing for far spines
+    const nearStep = 190;     // spacing for near cards
+    const tiltNear = 9;       // rotateY for near cards
+    const tiltSpine = 16;     // rotateY for spine cards
+
+    // Hide beyond range
+    if (Math.abs(d) > maxVisible){
+      el.style.setProperty("--op", 0);
+      el.style.setProperty("--x", `${d * spineStep}px`);
+      el.style.setProperty("--y", `0px`);
+      el.style.setProperty("--s", 0.70);
+      el.style.setProperty("--ry", `${d < 0 ? tiltSpine : -tiltSpine}deg`);
+      el.style.setProperty("--z", 0);
+      el.style.pointerEvents = "none";
+      el.setAttribute("aria-hidden", "true");
+      return;
+    }
+
+    // Everything visible is clickable
+    el.style.pointerEvents = "auto";
+
+    // ===== NEAR FAN =====
+    if (Math.abs(d) <= nearFan){
+      const x = Math.round(d * nearStep);
+      const y = Math.round(Math.abs(d) * 4);           // subtle lift for depth
+      const sBase = 1 - (Math.abs(d) * 0.12);
+
+      // Selected card bigger
+      const isActive = (Math.abs(d) < 0.45);
+      const s = isActive ? 1.12 : sBase;
+
+      // Keep selected card flat
+      const ry = isActive ? 0 : (d * tiltNear);
+
+      const op = 1 - (Math.abs(d) * 0.16);
+      const z = Math.round(100 - Math.abs(d) * 10);
+
+      el.style.setProperty("--x", `${x}px`);
+      el.style.setProperty("--y", `${y}px`);
+      el.style.setProperty("--s", s.toFixed(3));
+      el.style.setProperty("--op", Math.max(0.2, op).toFixed(3));
+      el.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
+      el.style.setProperty("--z", z);
+
+      el.classList.toggle("is-active", isActive);
+      el.classList.toggle("is-chosen", i === active);
+      return;
+    }
+
+    // ===== FAR SPINES =====
+    el.classList.add("is-spine");
+
+    const sign = d < 0 ? -1 : 1;
+    const farIndex = Math.abs(d) - nearFan; // 1,2,3...
+    const x = Math.round(sign * (nearFan * nearStep + farIndex * spineStep));
+    const y = Math.round(18 + farIndex * 5);
+    const s = Math.max(0.62, 0.78 - farIndex * 0.03);
+    const op = Math.max(0.18, 0.55 - farIndex * 0.06);
+    const ry = sign * -tiltSpine;
+    const z = Math.round(10 - farIndex);
+
+    el.style.setProperty("--x", `${x}px`);
+    el.style.setProperty("--y", `${y}px`);
+    el.style.setProperty("--s", s.toFixed(3));
+    el.style.setProperty("--op", op.toFixed(3));
+    el.style.setProperty("--ry", `${ry}deg`);
+    el.style.setProperty("--z", z);
+
+    el.classList.toggle("is-chosen", i === active);
+  });
+
+  // Buttons enabled / disabled (no loop, shelf ends)
+  if (btnL && btnR){
+    btnL.disabled = (active <= 0);
+    btnR.disabled = (active >= items.length - 1);
+  }
+}
+
+
+
+  // Buttons
+  btnL?.addEventListener("click", prev);
+  btnR?.addEventListener("click", next);
+
+  // Click card to focus it
+// Click card to focus it (BUT ignore clicks on controls)
+items.forEach((el, i) => {
+  el.addEventListener("click", (e) => {
+    // If user clicked any interactive control, do NOT treat it as "focus card"
+    if (e.target.closest("button, a, input, details, summary, .tg-player")) return;
+
+    active = i;
+    activeFloat = i;
+    apply();
+  });
+
+
+  });
+
+  // Keyboard (premium feel)
+  root.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+  });
+  root.tabIndex = 0;
+
+  // ===== Drag (native shelf feel): continuous + inertia + snap =====
+let down = false;
+let startX = 0;
+let startFloat = 0;
+let lastX = 0;
+let lastT = 0;
+
+const pxPerCard = 240;     // feel knob: bigger = heavier (try 220..280)
+let v = 0;                 // velocity in "cards per frame"
+let animating = false;
+
+const clampFloat = () => {
+  activeFloat = Math.max(0, Math.min(items.length - 1, activeFloat));
+};
+
+const tick = () => {
+  // integrate
+  activeFloat += v;
+  clampFloat();
+
+  // friction
+  v *= 0.86;
+
+  apply();
+
+  // stop + snap
+  if (Math.abs(v) < 0.0009) {
+    v = 0;
+    animating = false;
+    active = Math.round(activeFloat);
+    activeFloat = active;
+    apply();
+    return;
+  }
+  requestAnimationFrame(tick);
+};
+
+const kick = (impulse) => {
+  v += impulse;
+  if (!animating) {
+    animating = true;
+    requestAnimationFrame(tick);
+  }
+};
+
+track.addEventListener("pointerdown", (e) => {
+  // ✅ IMPORTANT: don't start dragging if user is interacting with controls
+  if (e.target.closest("button, a, input, details, summary, .tg-player, .cover-btn")) return;
+
+  down = true;
+  startX = e.clientX;
+  lastX = e.clientX;
+  lastT = performance.now();
+  startFloat = activeFloat;
+
+  // stop any running inertia immediately
+  v = 0;
+  animating = false;
+
+  track.setPointerCapture(e.pointerId);
+});
+
+
+track.addEventListener("pointermove", (e) => {
+  if (!down) return;
+
+  const x = e.clientX;
+  const now = performance.now();
+
+  // drag maps pixels -> cards
+  const dx = x - startX;
+  activeFloat = startFloat - (dx / pxPerCard);
+  clampFloat();
+
+  // measure velocity (cards per frame-ish)
+  const dt = Math.max(8, now - lastT);
+  const ddx = x - lastX;
+  const cardsPerMs = -(ddx / pxPerCard) / dt;      // cards per ms
+  v = cardsPerMs * 16;                              // ~cards per 16ms frame
+
+  lastX = x;
+  lastT = now;
+
+  apply();
+});
+
+track.addEventListener("pointerup", (e) => {
+  if (!down) return;
+  down = false;
+
+  // inertia continues from current v
+  // clamp v a bit so it never goes crazy
+  v = Math.max(-0.12, Math.min(0.12, v));
+  kick(0); // start the tick loop using current v
+});
+
+track.addEventListener("pointercancel", () => {
+  if (!down) return;
+  down = false;
+  active = Math.round(activeFloat);
+  activeFloat = active;
+  apply();
+});
+
+
+root.addEventListener("wheel", (e) => {
+  const delta = (Math.abs(e.deltaX) > Math.abs(e.deltaY)) ? e.deltaX : e.deltaY;
+  e.preventDefault();
+  kick(delta * 0.00018);
+}, { passive: false });
+
+
+
+
+  // Init
+  apply();
+
+})();
+
+</script>
+<!-- Hidden Google Forms submit (no redirect, no visible form) -->
+<iframe name="gfHiddenFrame" id="gfHiddenFrame" style="display:none;"></iframe>
+
+<form
+        id="gfForm"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSdHGqbuPMPwLMxi4NDSn5UwWLGP1xbN4q-eZAE8ZvyPtcTl4Q/formResponse"
+        method="POST"
+        target="gfHiddenFrame"
+        style="display:none;"
+>
+    <input name="entry.1027990873" id="gf_plan" />
+    <input name="entry.1151704550" id="gf_price" />
+    <input name="entry.1269365195" id="gf_recipient" />
+    <input name="entry.847081465" id="gf_email" />
+
+    <input name="entry.444829070" id="gf_kind" />
+    <input name="entry.1147014584" id="gf_genre" />
+    <input name="entry.1196240155" id="gf_vibe" />
+
+    <input name="entry.1502024716" id="gf_wantLyrics" />
+    <input name="entry.669181738" id="gf_lyricsLanguage" />
+
+    <textarea name="entry.796088313" id="gf_story"></textarea>
+
+    <input name="entry.1112467207" id="gf_mustInclude" />
+    <input name="entry.1795585656" id="gf_references" />
+</form>
+
+<!-- ✅ SEO Structured Data: FAQ + Product (ADD THIS BLOCK) -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How does TheGiftTrack work to create a personalized song?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You share your story, emotions, and the person it’s for. Our producers craft a custom prompt, generate the first version with AI, then refine lyrics, structure, and sound until it feels human, intentional, and emotionally right."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is the personalized song fully AI-generated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes — the first version is generated with AI. Our role is guidance and curation: we carefully craft the prompt, direct multiple iterations, and refine lyrics and structure until the song feels intentional, emotionally accurate, and truly fitted to your story."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does delivery take for a custom song?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most orders are delivered within 24 hours. Some complex or emotional requests may take slightly longer to ensure quality — we never rush a meaningful song."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What occasions are best for a personalized song gift?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Anniversaries, birthdays, break-ups, thank-you gifts, weddings, children’s songs, or moments that are hard to put into words. If it matters to you, it can become a song."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is a personalized song?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A personalized song is a custom track made for one person, based on real details like memories, personality, and the feeling you want to deliver. It’s not a template — it’s written to fit someone."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can you include names, places, or personal memories in the lyrics?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. You can add names, places, inside jokes, and meaningful moments. We weave them in tastefully so the lyrics feel personal while still sounding natural and musical."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What music styles can I choose for my custom song?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can choose a genre and mood (pop, indie, acoustic, R&B, house, and more). The production is shaped to match your story and the emotional intention of your gift."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What do I receive after ordering a personalized song?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You receive a finished, shareable song you can gift immediately. It’s designed to be replayed, shared, and remembered — a personal soundtrack for a real moment."
+                }
+            }
+        ]
+    }
+</script>
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "TheGiftTrack Personalized Song",
+        "description": "Create a personalized song made from your story using AI. TheGiftTrack combines artificial intelligence and human creativity to turn memories into custom music gifts for anniversaries, birthdays, kids, and loved ones.",
+        "brand": {
+            "@type": "Brand",
+            "name": "TheGiftTrack"
+        },
+        "category": "Personalized music gift",
+        "offers": {
+            "@type": "AggregateOffer",
+            "priceCurrency": "USD",
+            "lowPrice": "15",
+            "highPrice": "89",
+            "offerCount": "2",
+            "availability": "https://schema.org/InStock"
+        }
+    }
+</script>
+<!-- ✅ End SEO Structured Data -->
+
+</body>
+</html>
+
+
