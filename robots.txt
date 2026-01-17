@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gurrulabs-oss.github.io/TheGiftTrack/sitemap.xml

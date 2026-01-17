@@ -2,7 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://gurrulabs-oss.github.io/TheGiftTrack/</loc>
-        <lastmod>2026-01-16</lastmod>
+        <lastmod>2026-01-17</lastmod>
         <priority>1.0</priority>
+    </url>
+
+    <url>
+        <loc>https://gurrulabs-oss.github.io/TheGiftTrack/personalized-anniversary-song.html</loc>
+        <lastmod>2026-01-17</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://gurrulabs-oss.github.io/TheGiftTrack/personalized-birthday-song.html</loc>
+        <lastmod>2026-01-17</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://gurrulabs-oss.github.io/TheGiftTrack/song-for-mom.html</loc>
+        <lastmod>2026-01-17</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://gurrulabs-oss.github.io/TheGiftTrack/kids-personalized-song.html</loc>
+        <lastmod>2026-01-17</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://gurrulabs-oss.github.io/TheGiftTrack/wedding-song-gift.html</loc>
+        <lastmod>2026-01-17</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://gurrulabs-oss.github.io/TheGiftTrack/custom-song-gift.html</loc>
+        <lastmod>2026-01-17</lastmod>
+        <priority>0.8</priority>
     </url>
 </urlset>

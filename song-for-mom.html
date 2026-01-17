@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Favicons (same as main site) -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="48x48">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Song for Mom – A Personalized Song Gift Made From Your Story | TheGiftTrack</title>
+
+    <meta name="description"
+          content="Create a song for mom that’s truly personal. A custom song gift with names, memories, and heartfelt lyrics — crafted with AI and human creativity.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --accent:#6366f1; }
+        body {
+          font-family: 'Inter', sans-serif;
+          background-color:#050505;
+          color:#fff;
+        }
+        h1,h2,h3 { font-family:'Instrument Sans',sans-serif; }
+        .bg-glow{
+          position:fixed; inset:0;
+          background:radial-gradient(circle at 50% -20%, #1e1b4b 0%, #050505 55%);
+          z-index:-1;
+        }
+        .glass-card{
+          background:rgba(255,255,255,.03);
+          border:1px solid rgba(255,255,255,.08);
+          backdrop-filter:blur(18px);
+        }
+        .text-gradient{
+          background:linear-gradient(to right,#fff 25%,#6366f1 100%);
+          -webkit-background-clip:text;
+          -webkit-text-fill-color:transparent;
+        }
+    </style>
+    <!-- Mixpanel (same as index) -->
+    <script>
+        (function(f,b){
+          if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];
+          b.init=function(a,e,d){function f(b,h){var a=h.split(".");
+          2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(
+          Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d
+          ?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){
+          var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};
+          c.people.toString=function(){return c.toString(1)+".people (stub)"};
+          i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+          for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};
+          b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;
+          a.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+          e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}
+        })(document,window.mixpanel||[]);
+        mixpanel.init("20a6baa8d266700297f9b0b16efc0a13", {
+          api_host: "https://api-eu.mixpanel.com",
+          debug: true,
+          persistence: "localStorage"
+        });
+    </script>
+
+
+</head>
+
+<body class="antialiased">
+<div class="bg-glow"></div>
+
+<!-- NAV -->
+<nav class="sticky top-0 z-40 px-6 py-4 border-b border-white/5 bg-black/50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="/TheGiftTrack/" class="text-xl font-extrabold italic">
+            THEGIFT<span class="text-indigo-500">TRACK</span>
+        </a>
+        <a href="/TheGiftTrack/#pricing"
+           class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">
+            Order Now
+        </a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="pt-28 pb-20 px-6 text-center">
+    <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-gradient">
+        Song for Mom
+    </h1>
+
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+        Give her something she’ll never forget: a personalized song for mom.
+        We turn your memories, gratitude, and love into a custom song she can replay forever.
+    </p>
+
+    <div class="mt-12 flex flex-col md:flex-row gap-6 justify-center">
+        <a href="/TheGiftTrack/#pricing"
+           data-mp-mom="hero-create"
+           class="px-10 py-5 bg-white text-black rounded-2xl font-bold text-lg hover:bg-indigo-500 hover:text-white transition">
+            Create a Song for Mom
+        </a>
+
+        <a href="/TheGiftTrack/#social-proof"
+           data-mp-mom="hero-examples"
+           class="px-10 py-5 glass-card rounded-2xl font-bold text-lg italic">
+            Hear Real Examples
+        </a>
+
+    </div>
+</header>
+
+<!-- CONTENT -->
+<section class="max-w-5xl mx-auto px-6 py-24 space-y-16">
+
+    <div>
+        <h2 class="text-3xl font-bold italic mb-4">
+            A Personalized Song Gift for Mom
+        </h2>
+        <p class="text-gray-400 leading-relaxed">
+            A custom song for mom is a heartfelt way to say “thank you” in a way words alone can’t.
+            Include her name, family details, meaningful moments, and what she means to you.
+        </p>
+        <p class="text-gray-400 leading-relaxed mt-4">
+            At
+            <a href="/TheGiftTrack/" class="underline hover:text-indigo-400">
+                TheGiftTrack
+            </a>,
+            every song is crafted from scratch — no generic lyrics, just real memories turned into music.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass-card p-8 rounded-3xl">
+            <h3 class="font-bold mb-2">💐 Perfect for Mother’s Day</h3>
+            <p class="text-gray-400 text-sm">
+                A meaningful Mother’s Day gift she’ll actually keep and replay.
+            </p>
+        </div>
+        <div class="glass-card p-8 rounded-3xl">
+            <h3 class="font-bold mb-2">👩‍👧‍👦 Family Details Included</h3>
+            <p class="text-gray-400 text-sm">
+                Add names, kids, family nicknames, or special moments you share.
+            </p>
+        </div>
+        <div class="glass-card p-8 rounded-3xl">
+            <h3 class="font-bold mb-2">🎶 Any Style</h3>
+            <p class="text-gray-400 text-sm">
+                Soft piano, acoustic, pop, indie, gospel — we match her vibe.
+            </p>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-3xl font-bold italic mb-4">
+            When to Gift a Song for Mom
+        </h2>
+        <p class="text-gray-400 leading-relaxed">
+            A personalized song for mom is perfect for Mother’s Day, birthdays, weddings,
+            a thank-you gift, or simply “just because.”
+        </p>
+        <p class="text-gray-400 leading-relaxed mt-4">
+            It’s a gift that becomes part of the family story.
+        </p>
+    </div>
+
+    <div class="glass-card p-8 rounded-3xl">
+        <h2 class="text-2xl font-bold italic mb-3">Other popular pages</h2>
+        <p class="text-gray-400 text-sm leading-relaxed">
+            For couples, try our
+            <a href="/TheGiftTrack/personalized-anniversary-song.html" class="underline hover:text-indigo-400">
+                personalized anniversary song
+            </a>.
+            For friends and family, try a
+            <a href="/TheGiftTrack/personalized-birthday-song.html" class="underline hover:text-indigo-400">
+                personalized birthday song
+            </a>.
+        </p>
+    </div>
+
+</section>
+
+<!-- CTA -->
+<section class="text-center py-32 px-6 bg-zinc-950/60">
+    <h2 class="text-4xl font-bold italic mb-6">
+        Turn Your Gratitude Into Music
+    </h2>
+    <p class="text-gray-400 max-w-xl mx-auto mb-10">
+        Share your story, and we’ll create a song for mom she’ll treasure forever.
+    </p>
+    <a href="/TheGiftTrack/#pricing"
+       data-mp-mom="cta-create"
+       class="inline-block px-12 py-5 bg-indigo-600 hover:bg-indigo-500 rounded-2xl font-extrabold text-lg shadow-xl">
+        Create Your Song
+    </a>
+
+</section>
+
+<footer class="py-20 text-center border-t border-white/5">
+    <p class="text-[10px] uppercase tracking-[0.4em] text-gray-600">
+        © TheGiftTrack — Personalized Songs
+    </p>
+
+    <nav class="mt-6 text-[10px] uppercase tracking-widest text-gray-500 space-x-4">
+        <a href="/TheGiftTrack/" class="hover:text-white">Home</a>
+        <a href="/TheGiftTrack/song-for-mom.html" class="hover:text-white">Song for Mom</a>
+        <a href="/TheGiftTrack/personalized-birthday-song.html" class="hover:text-white">Birthday Song</a>
+        <a href="/TheGiftTrack/personalized-anniversary-song.html" class="hover:text-white">Anniversary Song</a>
+    </nav>
+</footer>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+    {
+        "@context":"https://schema.org",
+        "@type":"FAQPage",
+        "mainEntity":[
+            {
+                "@type":"Question",
+                "name":"Can I include names and family details in the song for mom?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"Yes. You can include your mom’s name, family member names, nicknames, and meaningful memories in your personalized song."
+                }
+            },
+            {
+                "@type":"Question",
+                "name":"Is this a good Mother’s Day gift?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"Yes. A personalized song for mom is a unique Mother’s Day gift that feels deeply personal and lasts forever."
+                }
+            },
+            {
+                "@type":"Question",
+                "name":"How long does it take to receive a song for mom?",
+                "acceptedAnswer":{
+                    "@type":"Answer",
+                    "text":"Most songs are delivered within 24 hours."
+                }
+            }
+        ]
+    }
+</script>
+
+<script>
+    // =========================
+    // Mixpanel Tracking (TheGiftTrack Mom Page)
+    // =========================
+    const MP = {
+      track: (event, props = {}) => {
+        try {
+          if (window.mixpanel && typeof window.mixpanel.track === "function") {
+            window.mixpanel.track(event, props);
+          }
+        } catch (e) {}
+      }
+    };
+
+    // 1) Page view
+    document.addEventListener("DOMContentLoaded", () => {
+      MP.track("TheGiftTrack Mom Page - Page View", {});
+    });
+
+    // 2) Button clicks
+    document.addEventListener("click", (e) => {
+      const heroBtn = e.target.closest("[data-mp-mom='hero-create']");
+      if (heroBtn) {
+        MP.track("TheGiftTrack Mom Page - Create a Song for Mom Click", {});
+      }
+
+      const examplesBtn = e.target.closest("[data-mp-mom='hero-examples']");
+      if (examplesBtn) {
+        MP.track("TheGiftTrack Mom Page - Hear Real Examples Click", {});
+      }
+
+      const ctaBtn = e.target.closest("[data-mp-mom='cta-create']");
+      if (ctaBtn) {
+        MP.track("TheGiftTrack Mom Page - Create Song Click", {});
+      }
+    });
+</script>
+
+</body>
+</html>
